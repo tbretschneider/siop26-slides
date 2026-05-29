@@ -11,6 +11,10 @@
 % Oxford Maths theming
 \usetheme{oxfordmaths}
 
+\usepackage[backposition=title]{beamerappendixnote}
+
+\usepackage{appendixnumberbeamer}
+
 \usepackage[
   backend=biber,
   style=numeric
@@ -18,14 +22,43 @@
 
 \addbibresource{references.bib}
 
+\usepackage[abbreviations,automake]{glossaries-extra}
+
+\newglossary[slg]{symbolslist}{syi}{syg}{List of Symbols}
+\makeglossaries
+\setabbreviationstyle{long-short}
+
+
+\glsnoexpandfields
+
+\newcommand*{\glsdefaultarg}{}
+\newcommand*{\glsarg}{\glsdefaultarg}
+
+\input{glossary.tex}
+
+\preto\glsentryfmt{%
+  \glsifcategory{\glslabel}{arg}% if category set to "arg"
+  {%
+    \ifdefempty\glsinsert
+    {\let\glsarg\glsdefaultarg}%
+    {%
+      \let\glsarg\glsinsert
+      \let\glsinsert\empty
+    }%
+  }%
+  {}%
+}
+
+\usepackage{fixmath}
+
 % Set author etc info
-\title[My Talk] %short version of title for slide footer
-{Title page title  goes here and it can be quite long in
-  which case it will wrap onto a 2nd  and 3rd line} %full title for titlepage
-\author{ S.  Peaker \& P. Resenter}
-\institute{Mathematical Institute\\University of Oxford}
-\date[1 May 2024]  %short date for slide footer
-{Really Great Conference, May 2024} %main date for title page,
+\title[AA Convergence] %short version of title for slide footer
+{Rates of Convergence of Anderson Acceleration for 
+ Fixed Point Problems} %full title for titlepage
+\author{\emph{Tobias Bretschneider} and Coralia Cartis}
+\institute{Mathematical Institute\\University of Oxford\\United Kingdom}
+\date[Wed 4 June 2026]  %short date for slide footer
+{SIAM Conference on Optimization (OP26), June 2026} %main date for title page,
                         %can overload it to show say 'Conference X, Date Y'
 
 
@@ -34,6 +67,128 @@
 
 \begin{frame}[plain]
   \titlepage
+\end{frame}
+
+\begin{frame}{\glsfirst{aa}}
+    \begin{itemize}
+        \item Given a function $\gls{F} :\gls{Reals}[n] \to \gls{Reals}[n]$ we want to find an approximate fixed-point $\gls{x}[*]\in\gls{Reals}[n]$ s.t. $\gls{F}(\gls{x}[*]) \approx \gls{x}[*]$.
+        \item \gls{pi} would produce a sequence of iterates $(\gls{x}_i^\text{\gls{pi}})_{i \in \gls{Naturals}}$ by starting with initial guess $\gls{x}[0]$ and repeatedly applying $\gls{F}$, 
+\begin{equation}
+    \gls{x}_{i+1}^\text{\gls{pi}} = \gls{F}(\gls{x}_i^\text{\gls{pi}}).
+\end{equation}
+\item \gls{pi} only works for contractive $\gls{F}$, and can have slow convergence. {\color{red}\emph{Can we utilise the history to have an idea of where we are going?}}
+\item \gls{aa} each time takes a linear combination of multiple previous iterates. It produces a sequence, $(\gls{x}[i])_{i \in \gls{Naturals}}$ with
+\begin{equation}\label{eqn:simpaaform}
+    \gls{x}[i+1] = \sum_{j} \gls{alpha}_j \gls{F}(\gls{x}[j]),
+\end{equation}
+for coefficients $\gls{alpha}_j$.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{\gls{aa} Variants}
+    
+\end{frame}
+
+\begin{frame}{Simplification for Linear Case I}
+\begin{itemize}
+    \item Consider an affine fixed-point map $\gls{F}(\gls{x}{}) = \gls{A}\gls{x}{} + \gls{b}$, with fixed-point $\gls{xstar}$ (satisfying $
+        \gls{F}(\gls{xstar})=\gls{xstar}$). 
+    \item We can in fact WLOG let $\gls{b} = 0$.
+    \begin{itemize}
+    \item Define the error as $\gls{eps}[k] := \gls{x}[k]-\gls{xstar}$.
+    \item Since $\gls{xstar} = \gls{A}\gls{xstar}+ \gls{b}$, we have that (\appxnote{Shift details}{
+        \begin{itemize}
+            \item Note that subtracting $\gls{xstar}$ off the Picard iteration gives,
+            \[\gls{eps}[k+1] = \gls{F}(\gls{x}[k]) - \gls{xstar}.\]
+            \item Then using the defining property of $\gls{xstar} = \gls{A}\gls{xstar} - \gls{b}$, and expanding $\gls{F}$,
+            \[\gls{eps}[k+1] = \gls{A}\gls{x}[k]+ \gls{b} - A\gls{xstar}-\gls{b}.\]
+            \item Which gives, as desired,
+            \[\gls{eps}[k+1] = \gls{A}(\gls{x}[k]-\gls{xstar}) = \gls{A}\gls{eps}[k].\]
+        \end{itemize}
+    }),
+    \[
+        \gls{eps}[k+1] = \gls{A}\gls{eps}[k].
+    \]
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Simplification for Linear Case II}
+    \begin{itemize}
+        \item $\gls{A}-\gls{I}$ and $\gls{A}$ commute. In other words calculating the residual commutes with applying the map.
+
+ 
+    \end{itemize}
+       AA updates $ \tilde{x} $ iteratively as follows:
+
+\begin{enumerate}
+\item Let $ \tilde{y}^{(k+1)} $ be the point on the affine subspace spanned by previous iterates with the smallest norm, $ \|\tilde{y}^{(k+1)}\|_2 $.  
+\item  Update:  
+   \begin{equation}
+   \label{Step2}
+   \tilde{x}^{(k+1)} = q(\tilde{y}^{(k+1)}).
+   \end{equation} 
+ \end{enumerate}  
+Equivalency comes from;
+ $$
+\tilde{x}^{(k+1)} \only<4>{=(q - I)x^{(k+1)}}  = (q - I) \sum_{j=k-m_k}^{k} \alpha_j^{(k)} q(x^{(j)})   = q \left( \sum_{j=k-m_k}^{k} \alpha_j^{(k)} (q - I)x^{(j)} \right)  = q(\tilde{y}^{(k+1)}).
+$$
+   \end{frame}
+
+\begin{frame}{\gls{aa} as Residual Minimisation}
+
+\begin{itemize}
+    \item Define the residual map
+    \[
+        \gls{resF}(\gls{x}{})
+        = \gls{F}(\gls{x}{})-\gls{x}{}.
+    \]
+
+    \item The residual at iteration $k$ is
+    \[
+        \gls{r}[k]
+        = \gls{resF}(\gls{x}[k]).
+    \]
+
+    \item Anderson acceleration forms the affine subspace
+    \[
+        \gls{aff}(\gls{R}[k]),
+    \]
+    generated by the previous residuals.
+\end{itemize}
+
+\pause
+
+\begin{enumerate}
+    \item Compute the minimum-norm point
+    \[
+        \gls{tily}[k+1]
+        =
+        \arg\min_{\mathbold{z}\in\gls{aff}(\gls{R}[k])}
+        \|\mathbold{z}\|_2 .
+    \]
+
+    \pause
+
+    \item Apply the fixed-point map to obtain the next iterate.
+\end{enumerate}
+
+\pause
+
+For a linear map $\gls{F}(\gls{x}{})=\gls{A}\gls{x}{}+\gls{b}$,
+
+\[
+    \gls{r}[k+1]
+    =
+    \gls{A}\,\gls{tily}[k+1],
+\]
+
+so \gls{aa} can be interpreted as repeatedly finding the smallest residual in the affine hull of previous residuals and propagating it through $\gls{A}$.
+
+\end{frame}
+
+\begin{frame}{}
+    
 \end{frame}
 
 \begin{frame}
@@ -102,11 +257,15 @@
 
 \end{frame}
 
+\appendix
+
 \begin{frame}[allowframebreaks]
   \frametitle{References}
 
   \printbibliography
 
 \end{frame}
+
+\printappxnotes
 
 \end{document}

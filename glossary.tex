@@ -1,0 +1,312 @@
+\newglossaryentry{x}{
+    category=arg,% requires an argument
+    name=\ensuremath{\mathbold{x}_k},
+    text=\mathbold{x}_{\glsarg},
+    description={$k$th point in a sequence of iterations},
+    type=symbolslist %in own list
+}
+\newglossaryentry{tily}{
+    category=arg,% requires an argument
+    name=\ensuremath{\tilde{y}^{(k)}},
+    text=\tilde{y}^{(\glsarg)},
+    description={Minimum norm point on affine subspace spanned by previous $\gls{x}[i]$},
+    type=symbolslist %in own list
+}
+\newglossaryentry{y}{
+    category=arg,% requires an argument
+    name=\ensuremath{\mathbold{y}_k},
+    text=\mathbold{y}_{\glsarg},
+    description={Minimum norm vector in $\gls{aff}[\gls{R}]$},
+    type=symbolslist %in own list
+}
+\newglossaryentry{aff}{
+    %category=arg,% requires an argument
+    name=\ensuremath{\operatorname{aff}(\cdot)},
+    text=\operatorname{aff},
+    description={Affine Hull},
+    type=symbolslist %in own list
+}
+\newglossaryentry{su}{
+    %category=arg,% requires an argument
+    name=\ensuremath{\operatorname{su}(\cdot)},
+    text=\operatorname{su},
+    description={Sum of the argument's elements},
+    type=symbolslist %in own list
+}
+\newglossaryentry{peninv}{
+    category=arg,% requires an argument
+    name=\ensuremath{(\cdot)^+},
+    text=\glsarg^+,
+    description={Moore-Penrose inverse, i.e. $\gls{peninv}[\gls{A}] = (\gls{A}^T\gls{A})^{-1}\gls{A}^T$},
+    type=symbolslist %in own list
+}
+\newglossaryentry{F}{
+    %category=arg,% requires an argument
+    name=\ensuremath{\mathbold{F}},
+    text=\mathbold{F},
+    description={Generic fixed-point map. May or may not be linear.},
+    type=symbolslist %in own list
+}
+\newglossaryentry{resF}{
+    %category=arg,% requires an argument
+    name=\ensuremath{\mathbold{G}},
+    text=\mathbold{G},
+    description={Generic residual map. May or may not be linear.},
+    type=symbolslist %in own list
+}
+\newglossaryentry{Reals}{
+    category=arg,% requires an argument
+    name=\ensuremath{\mathbb{R}^{n}},
+    text=\mathbb{R}^{\glsarg},
+    description={$n$ dimensional Euclidean space},
+    type=symbolslist %in own list
+}
+\newglossaryentry{Naturals}{
+    %category=arg,% requires an argument
+    name=\ensuremath{\mathbb{N}},
+    text=\mathbb{N},
+    description={Natural numbers},
+    type=symbolslist %in own list
+}
+%\newcommand{\alphatwoargs}[1]{%
+%  \StrBefore{#1}{,}[\firstarg]%
+%  \StrBehind{#1}{,}[\secondarg]%
+%  \alpha_{\firstarg\,\secondarg}%
+%}
+\newglossaryentry{alpha}{
+    %category=arg,% requires an argument
+    name=\ensuremath{\alpha},
+    text=\alpha,
+    description={Generic scalar},
+    type=symbolslist %in own list
+}
+\newglossaryentry{r}{
+    category=arg,% requires an argument
+    name=\ensuremath{\mathbold{r}_{k}},
+    text=\mathbold{r}_{\glsarg},
+    description={$k$th residual in a sequence of iterations, i.e. $\gls{F}(\gls{x}[k]) - \gls{x}[k]$},
+    type=symbolslist %in own list
+}
+\newglossaryentry{conv}{
+    category=arg,% requires an argument
+    name=\ensuremath{\varrho_k},
+    text=\varrho_{\glsarg},
+    description={$k$th root of convergence ratio, $\frac{\|\gls{r}[k]\|}{\|\gls{r}[0]\|}$},
+    type=symbolslist %in own list
+}
+\newglossaryentry{rho}{
+    category=arg,% requires an argument
+    name=\ensuremath{\mathbold{\rho}_{k}},
+    text=\mathbold{\rho}_{\glsarg},
+    description={$k$th projection of the origin onto the affine subspace $\gls{R}[k]$},
+    type=symbolslist %in own list
+}
+\newglossaryentry{Rmat}{
+    category=arg,% requires an argument
+    name=\ensuremath{\mathbold{R}_{k}},
+    text=\mathbold{R}_{\glsarg},
+    description={$k$th residual matrix containing the past $k$ iterates $\ges{r}[i]$, starting with the 0th!},
+    type=symbolslist %in own list
+}
+\newglossaryentry{R}{
+    category=arg,% requires an argument
+    name=\ensuremath{\mathcal{R}_{k}},
+    text=\mathcal{R}_{\glsarg},
+    description={set of $k$ past residuals $\gls{r}_i$},
+    type=symbolslist %in own list
+}
+\newglossaryentry{xstar}{
+    %category=arg,% requires an argument
+	name=\ensuremath{\mathbold{x}_{*}},
+    text=\mathbold{x}_*,
+    description={Generic fixed point},
+    type=symbolslist %in own list
+}
+\newglossaryentry{A}{
+    %category=arg,% requires an argument
+    name=\ensuremath{\mathbold{A}},
+    text=\mathbold{A},
+    description={Generic linear map (matrix)},
+    type=symbolslist %in own list
+}
+\newglossaryentry{V}{
+    %category=arg,
+    name={\ensuremath{\mathbold{V}}},
+    text={\mathbold{V}},
+    description={Matrix of eigenvectors}, %not sure about the order here yet!
+    type=symbolslist
+}
+\newglossaryentry{Eig}{
+    %category=arg,
+    name={\ensuremath{\mathbold{\Lambda}}},
+    text={\mathbold{\Lambda}},
+    description={Diagonal matrix of eigenvalues}, %not sure about the order here yet!
+    type=symbolslist
+}
+\newglossaryentry{EigSet}{
+    %category=arg,
+    name={\ensuremath{\Lambda}},
+    text={\Lambda},
+    description={Set of eigenvalues}, %not sure about the order here yet!
+    type=symbolslist
+}
+\newglossaryentry{diag}{
+    %category=arg,
+    name={\ensuremath{\operatorname{diag}(\cdot)}},
+    text={\operatorname{diag}},
+    description={Diagonal matrix formed by putting the arguments on the diagonal}, %not sure about the order here yet!
+    type=symbolslist
+}
+
+\newglossaryentry{I}{
+    %category=arg,% requires an argument
+    name=\ensuremath{\mathbold{I}},
+    text=\mathbold{I},
+    description={Identity matrix},
+    type=symbolslist %in own list
+}
+
+\newglossaryentry{a}{
+    %category=arg,% requires an argument
+    name=\ensuremath{a},
+    text=a,
+    description={Generic vector},
+    type=symbolslist %in own list
+}
+\newglossaryentry{b}{
+    %category=arg,% requires an argument
+    name=\ensuremath{\mathbold{b}},
+    text=\mathbold{b},
+    description={Generic vector},
+    type=symbolslist %in own list
+}
+
+\newglossaryentry{S}{
+    %category=arg,% requires an argument
+    name=\ensuremath{\mathcal{S}},
+    text=\mathcal{S},
+    description={Generic set},
+    type=symbolslist %in own list
+}
+% Generic macro to support 1 to 3 arguments for a symbol
+\newglossaryentry{K}{
+    category=arg,
+    name={\ensuremath{\mathcal{K}_{n}}},
+    text={\mathcal{K}_{\glsarg}},
+    description={Order-$n$ Krylov subspace, optional arguments specify matrix and vector},
+    type=symbolslist
+}
+\newglossaryentry{Kmat}{
+    category=arg,
+    name={\ensuremath{\mathbold{K}_{n}}},
+    text={\mathbold{K}_{\glsarg}},
+    description={Order-$n$ Krylov subspace, optional arguments specify matrix and vector},
+    type=symbolslist
+}
+\newglossaryentry{G}{
+    category=arg,
+    name={\ensuremath{\mathbold{G}_{n}}},
+    text={\mathbold{G}_{\glsarg}},
+    description={Order-$n$ Krylov subspace Gramiam Matrix, optional arguments specify matrix and vector},
+    type=symbolslist
+}
+\newglossaryentry{Gdet}{
+    category=arg,
+    name={\ensuremath{\gamma_{n}}},
+    text={\gamma_{\glsarg}},
+    description={Order-$n$ Krylov subspace Gramiam Matrix determinant, optional arguments specify matrix and vector},
+    type=symbolslist
+}
+\newglossaryentry{Paff}{
+    category=arg,
+    name={\ensuremath{\mathcal{P}_{n}^{\mathrm{aff}}}},
+    text={\mathcal{P}_{\glsarg}^{\mathrm{aff}}},
+    description={Set of polynomials of order $n-1$ whose coefficients sum to 1}, %not sure about the order here yet!
+    type=symbolslist
+}
+\newglossaryentry{p}{
+    category=arg,
+    name={\ensuremath{p_{n}}},
+    text={p_{\glsarg}},
+    description={Generic polynomials of order $n-1$}, %not sure about the order here yet!
+    type=symbolslist
+}
+\newglossaryentry{q}{
+    category=arg,
+    name={\ensuremath{q_{n}}},
+    text={q_{\glsarg}},
+    description={A generic polynomials of order $n-1$}, %not sure about the order here yet!
+    type=symbolslist
+}
+\newglossaryentry{eig}{
+    category=arg,
+    name={\ensuremath{\lambda_{i}}},
+    text={\lambda_{\glsarg}},
+    description={A diagonal entry in a matrix $\gls{Eig}$}, %not sure about the order here yet!
+    type=symbolslist
+}
+\newglossaryentry{cond}{
+    %category=arg,
+    name={\ensuremath{\kappa(\cdot)}},
+    text={\kappa},
+    description={2-norm condition number}, %not sure about the order here yet!
+    type=symbolslist
+}
+\newglossaryentry{T}{
+    category=arg,
+    name={\ensuremath{T_{k}(z)}},
+    text={T_{\glsarg}},
+    description={standard $k$th Chebyshev polynomial of the first kind.}, %not sure about the order here yet!
+    type=symbolslist
+}
+\newglossaryentry{emin}{
+    %category=arg,
+    name={\ensuremath{\lambda_{\text{min}}}},
+    text={\lambda_{\text{min}}},
+    description={Minimum eigenvalue}, %not sure about the order here yet!
+    type=symbolslist
+}
+\newglossaryentry{emax}{
+    %category=arg,
+    name={\ensuremath{\lambda_{\text{max}}}},
+    text={\lambda_{\text{max}}},
+    description={Maximum eigenvalue}, %not sure about the order here yet!
+    type=symbolslist
+}
+\newglossaryentry{e}{
+    %category=arg,
+    name={\ensuremath{\mathbold{e}}},
+    text={\mathbold{e}},
+    description={Vector of 1s}, %not sure about the order here yet!
+    type=symbolslist
+}
+\newglossaryentry{eps}{
+    category=arg,% requires an argument
+    name=\ensuremath{\mathbold{\epsilon}_k},
+    text=\mathbold{\epsilon}_{\glsarg},
+    description={Error vector},
+    type=symbolslist %in own list
+}
+\newglossaryentry{m}{
+    %category=arg,
+    name={\ensuremath{\mu}},
+    text={\mu},
+    description={History parameters of \glsxtrlong{raa} and \glsxtrlong{waa}}, %not sure about the order here yet!
+    type=symbolslist
+}
+\newglossaryentry{vecalpha}{
+    %category=arg,
+    name={\ensuremath{\mathbold{\alpha}_k}},
+    text={\mathbold{\alpha}},
+    description={$k$th vector of coefficients}, %not sure about the order here yet!
+    type=symbolslist
+}
+
+\newabbreviation{gmres}{GMRES}{generalised minimal residual method}
+\newabbreviation{aa}{AA}{Anderson acceleration}
+\newabbreviation{pi}{PI}{Picard iteration}
+\newabbreviation{sdp}{SDP}{semidefinite programming problem}
+\newabbreviation{esm}{ESM}{Earth system model}
+\newabbreviation{raa}{rAA}{restarted \gls{aa}}
+\newabbreviation{waa}{wAA}{windowed \gls{aa}}
+\newabbreviation{cg}{CG}{conjugate gradient}

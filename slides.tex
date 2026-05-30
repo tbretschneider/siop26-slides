@@ -14,6 +14,8 @@
 \usepackage[backposition=title]{beamerappendixnote}
 \usepackage{tikz}
 \usetikzlibrary{calc,angles,quotes}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18} % or your installed version
 
 \usepackage{appendixnumberbeamer}
 
@@ -83,12 +85,17 @@
 \begin{equation}\label{eqn:simpaaform}
     \gls{x}[i+1] = \sum_{j} \gls{alpha}_j \gls{F}(\gls{x}[j]),
 \end{equation}
-for coefficients $\gls{alpha}_j$.
+for coefficients $\gls{alpha}_j$, which solve a particular minimisation problem (minimum norm combination over affine hull of past residuals).
     \end{itemize}
 \end{frame}
 
 \begin{frame}{\gls{aa} Variants}
-    
+    \begin{itemize}
+        \item infinite, all past iterates are considered. Gives convergence in a finite number of steps.
+        \item windowed: considers the past $m$ residuals for the minimisation problem.
+        \item restarted: clears the entire history after $m$ steps and restarts.
+        \item alternating: takes sometimes multiple pure \gls{pi} steps between computing the \gls{aa} iterate (like applying \gls{aa} to a power of the map).
+    \end{itemize}
 \end{frame}
 
 \begin{frame}{Simplification for Linear Case I}
@@ -142,11 +149,19 @@ where $\gls{aff}(\gls{R}[i+1])$ is the affine hull of past residuals.
    \end{frame}
 
 \begin{frame}{Existing/Related work}
-    
+    \begin{itemize}
+        \item \cite{Toth2015} convergence results without rates or improvement.
+        \item \cite{Evans2020} improved convergence over \gls{pi} without specific factors.
+        \item \cite{d_Aspremont2021} results similar to Krylov analysis of GMRES.
+        \item \cite{Garner2023} specific improvement results for windowed \gls{aa} on symmetric maps.
+        \item \cite{De_Sterck2022} asymptotic convergence rates for restarted \gls{aa} for certain normal linear systems.
+    \end{itemize}
 \end{frame}
 
 \begin{frame}{Open questions}
-    
+    \begin{itemize}
+        \item We still don't have a full appreciation of when, and to what extent \gls{aa} improves upon \gls{pi} for all major variants (specifically we shall consider linear maps).
+    \end{itemize}
 \end{frame}
 
 \begin{frame}{The minimisation problem \cite{Ni2009}}
@@ -325,7 +340,7 @@ y = \frac{1}{\gls{emax}} + \sqrt{\frac{1}{\gls{emax}^2}+1}.
 \begin{frame}{Some geometric intuition (2D)}
 \begin{figure}
     \centering
-    \input{tikz/circle.tikz}
+    \input{tikz/circle}
     \caption{2D intuition}
     \label{fig:2dpicture}
 \end{figure}
@@ -367,7 +382,7 @@ where the middle matrix is formed of the cosines of the inner products between t
     \end{pmatrix},
 \end{equation}
 
-this is something like an inhomogeneous Kac-Murdoch-Szeg\"o matrix \cite{Kac1953}, (or the correlation matrix of a time-varying AR(1) process \cite{Charbonnier1987}).
+this is something like an inhomogeneous \gls{kms} \cite{Kac1953}, (or the correlation matrix of a time-varying AR(1) process \cite{Charbonnier1987}).
 
 \appxnote{More justification for this decomposition}{
 Since we have shown the hull equivalency we need to show that the $\gls{vecalpha}$ coefficient returned when using this Gram matrix, i.e.,
@@ -379,16 +394,141 @@ is equal to $\gls{e}_k$ (the $k$th standard basis vector). This is straightforwa
     
 \end{frame}
 
-\begin{frame}{Some matrix algebra}
+\begin{frame}{Facts about the $\gls{KMSmat}[k]$ matrix}
+
+Given the matrices, 
+\begin{equation}
+    \gls{KMSD}[k] = \operatorname{diag}(\begin{bmatrix}
+        1 & 1-\gls{c}[1]^2 & 1 - \gls{c}[2]^2&\cdots & 1-\gls{c}[k-1]^2
+    \end{bmatrix}^T),
+\end{equation}
+\begin{equation}
+    \gls{KMSLtilde}[k]^{-1} = \begin{pmatrix}
+        1 & 0 & 0 & \cdots & 0 & 0 \\
+        -\gls{c}[1] & 1 & 0 & \cdots  & 0 & 0 \\
+        0 & -\gls{c}[2] & 1 & \cdots & 0 & 0 \\
+        \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+        0 &  0 & 0 & \cdots & 1 & 0 \\
+        0 & 0 & 0 & \cdots & -\gls{c}[k-1] & 1
+    \end{pmatrix}
+\end{equation}
+
+we have the decomposition,
+\begin{equation}
+    \gls{KMSmat}[k] = \gls{KMSLtilde}[k] \gls{KMSD}[k] \gls{KMSLtilde}[k]^T.
+\end{equation}
     
 \end{frame}
 
-\begin{frame}{Gram matrix in the no improvement situation.}
-    
+\begin{frame}{Perturbations of $\gls{KMSmat}[k]$}
+
+Letting $\gls{KMSL}[k]\gls{KMSL}[k]^T = \gls{KMSmat}[k]$, (the Cholesky decomposition), we denote the last row of $\gls{KMSL}[k]$ as,
+\begin{equation}
+    \gls{KMSl} = \gls{KMSL}[k]^T \gls{e}_k.
+\end{equation}
+Now if (after factoring out vector norms), $\gls{Mtildemat}[k]^T\gls{Mtildemat}[k]$ has a Cholesky decomposition with last row, $\gls{KMSlpert}$, then we have
+
+\begin{theorem}\label{thm:perturbation}
+\begin{equation}
+    \|\gls{rho}[k]\|^2 = \frac{1}{\gls{e}^T(\gls{Mtildemat}[k]^T\gls{Mtildemat}[k])^{-1}\gls{e}} = \frac{\|\gls{r}[k-1]\|^2}{\gamma},
+\end{equation}
+with,
+\begin{equation}
+    \gamma := 1 + \left(\frac{1-\gls{KMSlpert}\cdot\gls{KMSl}}{\gls{KMSlpert}\cdot\gls{e}_k}\right)^2 + 2(\gls{KMSl}\cdot\gls{e}_k)\left(\frac{1-\gls{KMSlpert}\cdot\gls{KMSl}}{\gls{KMSlpert}\cdot\gls{e}[k]}\right)\geq 1
+\end{equation}
+\end{theorem}
+
+\end{frame}
+
+\begin{frame}{Implications}
+
+\begin{itemize}
+    \item In other words if the next residual $\gls{r}[k]$ leads to a Gram matrix that is of a different form than our inhomogeneous \gls{kms} matrix then we have that $\gls{rho}[k+1]$ will be smaller than $\gls{r}[k]$ by a set factor.
+    \item This is a similar idea to the stage-$k$ gain defined in \cite{Evans2020}. 
+\end{itemize}
+
+\appxnote[allowframebreaks]{Details about perturbation argument}{
+We start with $\gls{KMSL}$, the factor in the Cholesky decomposition. We wish to find out how the inverse changes with respect to a rank-1 update given by,
+\begin{equation}
+    \gls{KMSL} \leftarrow \gls{KMSL} + \gls{e}_k (\gls{KMSlpert} - \gls{KMSl}).
+\end{equation}
+Now note the following elementary facts, 
+\begin{equation}
+    \gls{KMSl}^T \gls{KMSL}^{-1} = \gls{e}_k^T, \quad
+    \gls{KMSL}^{-1}\gls{e}_k = \frac{\gls{e}_k}{\gls{KMSl}\cdot\gls{e}_k}.
+\end{equation}
+So that by the Sherman-Morrison formula we have,
+\begin{equation}
+    \gls{KMSL}^{-1} \leftarrow \gls{KMSL}^{-1} + \frac{\gls{e}_k\gls{e}_k^T-\gls{e}_k\gls{KMSlpert}^T\gls{KMSL}^{-1}}{\gls{KMSlpert}\cdot\gls{e}_k}.
+\end{equation}
+To complete the computation we then need,
+\begin{equation}
+\gls{ew}_k := \begin{bmatrix}
+        \frac{1}{\|\gls{rho}[1]\|} & \frac{1}{\|\gls{rho}[2]\|} & \cdots & \frac{1}{\|\gls{rho}[k-1]\|} & \frac{1}{\|\gls{r}[k-1]\|}
+    \end{bmatrix}^T = \gls{diag}(\mathbold{v})^{-1}\gls{e},
+\end{equation}
+which is such that,
+\begin{equation}
+    \|\gls{KMSL}^{-1}\gls{ew}_k\|^2 = \gls{e}^T\gls{Mtildemat}[k]\gls{Mtildemat}[k]\gls{e},
+\end{equation}
+where the $\gls{KMSL}^{-1}$ is the updated version!
+Now we again have the following facts,
+\begin{equation}
+    \gls{KMSL}^{-1}\gls{ew}_k = \frac{\gls{KMSL}^T\gls{e}_k}{\|\gls{r}[k-1]\|} = \frac{\gls{KMSl}}{\|\gls{r}[k-1]}, \quad \gls{e}_k\gls{e}_k^T \gls{ew} = \frac{\gls{e}_k}{\|\gls{r}[k-1]\|}.
+\end{equation}
+Giving that,
+\begin{equation}
+    \left(\gls{KMSL}^{-1} + \frac{\gls{e}_k\gls{e}_k^T-\gls{e}_k\gls{KMSlpert}^T\gls{KMSL}^{-1}}{\gls{KMSlpert}\cdot\gls{e}_k}\right)\gls{ew} = \frac{1}{\|\gls{r}[k-1]\|}\left(\gls{KMSl}+\frac{1-\gls{KMSlpert}\cdot\gls{KMSl}}{\gls{KMSlpert}\cdot\gls{e}_k}\gls{e}_k\right).
+\end{equation}
+So the norm of this vector is,
+\begin{equation}
+    \frac{1}{\|\gls{r}[k-1]\|^2} \left(1+\left[\frac{1-\gls{KMSlpert}\cdot\gls{KMSl}}{\gls{KMSlpert}\cdot\gls{e}_k}\right]^2+2(\gls{KMSl}\cdot\gls{e}_k)\left[\frac{1-\gls{KMSlpert}\cdot\gls{KMSl}}{\gls{KMSlpert}\cdot\gls{e}_k}\right]\right).
+\end{equation}
+    }
+\end{frame}
+
+\begin{frame}{\gls{aa} no improvement examples}
+When all the $\gls{c}[i]$ are constant (say $\gls{c}$) we can find an orthogonal matrix $\gls{A}$ such that \gls{aa} applied to $\gls{c}\gls{A}$ with an appropriate intial point produces exactly the same iterates as \gls{pi}.
+
+\begin{itemize}
+    \item Works for both restarted, and windowed \gls{aa} (with some assumptions).
+    \item In essence the "rotation" of vectors has to match their "shrinking".
+\end{itemize}
+
+\appxnote{Finding the no improvement examples}{
+When all the $\gls{c}[i]$ are constant we get exactly the \gls{kms} matrix. Can then take the Cholesky factorisation of this, and use the vectors in this to create a moment problem \cite{Vorobyev1965}. Adding the additional assumptions for orthogonality gives a well-defined linear map. 
+
+Finally, in the restarted and windowed cases the orthogonality ensures that inner products remain the same no matter how much the map is applied. Thus in the asymptotic case the no-improvement idea holds.
+}
+
 \end{frame}
 
 \begin{frame}{Where to go from here?}
-    
+    \begin{itemize}
+        \item We obtain a different expression for the $k$-stage gain than \cite{Evans2020}, we can look at when this can be bounded for some specific examples of linear maps.
+        \item Can we provide a complete characterisation of when \gls{aa} produces no improvement over \gls{pi}.
+        \item Comparisons to the polynomial based bounds.
+        \item \cite{Feng2024a} did some work on the alternating \gls{aa}/\gls{pi} variant (basically \gls{aa} applied to powers of map). It will be interesting to see if there is a way to give an expression for the optimal power.
+    \end{itemize}
+
+\appxnote{Example of improvement by alternating}{
+Just in the 2D case, we compare two procedures, either:
+\begin{itemize}
+    \item the process of doing windowed \gls{aa} with history parameter 1 (i.e. we keep taking Anderson steps based on only the last residual); or,
+    \item taking two \gls{pi} steps and then doing \gls{aa} with only this point and the first point.
+\end{itemize}
+
+Doing this for the maps $\cos(\theta) R(\theta)$, ($R(\theta)$ is a rotation by $\theta$ - the case where \gls{aa} is just \gls{pi}), with $\theta \in \left(0,\frac{\pi}{2}\right)$, gives the following improvement when doing the two \gls{pi} steps and then \gls{aa},
+
+\begin{figure}
+    \centering
+    \input{tikz/alternating-improvement}
+    \caption{Ratio of the alternating iterate to the standard \gls{aa} iterate after the same number of function evaluations.}
+    \label{fig:alternatingimprovement}
+\end{figure}
+
+}
+
 \end{frame}
 
 \begin{frame}{Questions?}

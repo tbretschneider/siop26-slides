@@ -161,7 +161,42 @@
     category=arg,% requires an argument
     name=\ensuremath{\mathbold{C}_{k}},
     text=\mathbold{C}_{\glsarg},
-    description={slightly generalised Kac–Murdock–Szeg\"o matrix.},
+    description={slightly generalised \gls{kms} matrix.},
+    type=symbolslist %in own list
+}
+\newglossaryentry{KMSLtilde}{
+    category=arg,% requires an argument
+    name=\ensuremath{\mathbold{\tilde{L}}_{k}},
+    text=\mathbold{\tilde{L}}_{\glsarg},
+    description={inverse bit of \gls{kms} decomposition.},
+    type=symbolslist %in own list
+}
+\newglossaryentry{KMSL}{
+    category=arg,% requires an argument
+    name=\ensuremath{\mathbold{L}_{k}},
+    text=\mathbold{L}_{\glsarg},
+    description={inverse bit of \gls{kms} decomposition.},
+    type=symbolslist %in own list
+}
+\newglossaryentry{KMSl}{
+    category=arg,% requires an argument
+    name=\ensuremath{\mathbold{l}_{k}},
+    text=\mathbold{l}_{\glsarg},
+    description={last row of the Cholesky decomposition of \gls{kms}.},
+    type=symbolslist %in own list
+}
+\newglossaryentry{KMSlpert}{
+    category=arg,% requires an argument
+    name=\ensuremath{\mathbold{\tilde{l}}_{k}},
+    text=\mathbold{\tilde{l}}_{\glsarg},
+    description={perturbed last row of the Cholesky decomposition of \gls{kms}.},
+    type=symbolslist %in own list
+}
+\newglossaryentry{KMSD}{
+    category=arg,% requires an argument
+    name=\ensuremath{\mathbold{D}_{k}},
+    text=\mathbold{D}_{\glsarg},
+    description={diagonal part of KMS decomposition.},
     type=symbolslist %in own list
 }
 \newglossaryentry{xstar}{
@@ -329,6 +364,13 @@
     description={Vector of 1s}, %not sure about the order here yet!
     type=symbolslist
 }
+\newglossaryentry{ew}{
+    %category=arg,
+    name={\ensuremath{\mathbold{\tilde{e}}}},
+    text={\mathbold{\tilde{e}}},
+    description={Vector of weird 1s}, %not sure about the order here yet!
+    type=symbolslist
+}
 \newglossaryentry{eps}{
     category=arg,% requires an argument
     name=\ensuremath{\mathbold{\epsilon}_k},
@@ -353,6 +395,7 @@
 
 \newabbreviation{gmres}{GMRES}{generalised minimal residual method}
 \newabbreviation{aa}{AA}{Anderson acceleration}
+\newabbreviation{kms}{KMS}{Kac-Murdoch-Szeg\"o}
 \newabbreviation{pi}{PI}{Picard iteration}
 \newabbreviation{sdp}{SDP}{semidefinite programming problem}
 \newabbreviation{esm}{ESM}{Earth system model}

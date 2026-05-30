@@ -20,7 +20,7 @@
   }
 }
 
-\node (origin) at (0,0) { };
+\node (origin) at (0,0) {};
 
   % The graphic
   \begin{scope}[style=axes]
@@ -58,7 +58,6 @@
   }
 
 \onslide<7->{
-\draw (origin) -- (foot);
   \pic[
     draw=anglecolor,
     fill=green!20,
@@ -66,6 +65,8 @@
     "$\alpha$",
     angle eccentricity=1.4
   ] {angle = rho_kp1--origin--rho_k};
+  \draw[thick] (0,0) -- (foot);
+
 }
 
 \onslide<8->{

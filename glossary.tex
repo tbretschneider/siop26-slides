@@ -119,21 +119,49 @@
     category=arg,% requires an argument
     name=\ensuremath{\mathbold{M}_{k}},
     text=\mathbold{M}_{\glsarg},
-    description={$k$th min norm matrix containing the past $k-1$ solutions to the minimum norm problem and the current residual.},
+    description={$k$th min norm matrix containing the past $k$ solutions to the minimum norm problem.},
     type=symbolslist %in own list
 }
 \newglossaryentry{M}{
     category=arg,% requires an argument
     name=\ensuremath{\mathcal{M}_{k}},
     text=\mathcal{M}_{\glsarg},
-    description={set of $k-1$ past min norm points $\gls{rho}_i$+current residual},
+    description={set of $k$ past min norm points $\gls{rho}_i$},
+    type=symbolslist %in own list
+}
+\newglossaryentry{Mtildemat}{
+    category=arg,% requires an argument
+    name=\ensuremath{\mathbold{\tilde{M}}_{k}},
+    text=\mathbold{\tilde{M}}_{\glsarg},
+    description={$k$th min norm matrix containing the past $k-1$ solutions to the minimum norm problem and the current residual.},
     type=symbolslist %in own list
 }
 \newglossaryentry{Mtilde}{
     category=arg,% requires an argument
     name=\ensuremath{\tilde{\mathcal{M}}_{k}},
     text=\tilde{\mathcal{M}}_{\glsarg},
-    description={set of $k$ past min norm points $\gls{rho}_i$},
+    description={set of $k-1$ past min norm points $\gls{rho}_i$+current residual},
+    type=symbolslist %in own list
+}
+\newglossaryentry{c}{
+    category=arg,% requires an argument
+    name=\ensuremath{c_{k}},
+    text=c_{\glsarg},
+    description={ratio between norm of $\gls{rho}[k]$ and $\gls{rho}[k+1]$},
+    type=symbolslist %in own list
+}
+\newglossaryentry{ctildevec}{
+    category=arg,% requires an argument
+    name=\ensuremath{\mathbold{\tilde{c}}_{k}},
+    text=\mathbold{\tilde{c}}_{\glsarg},
+    description={vector formed by 1 and then cumulative increasing product of $k-1$ scalars $\gls{c}[i]$},
+    type=symbolslist %in own list
+}
+\newglossaryentry{KMSmat}{
+    category=arg,% requires an argument
+    name=\ensuremath{\mathbold{C}_{k}},
+    text=\mathbold{C}_{\glsarg},
+    description={slightly generalised Kac–Murdock–Szeg\"o matrix.},
     type=symbolslist %in own list
 }
 \newglossaryentry{xstar}{

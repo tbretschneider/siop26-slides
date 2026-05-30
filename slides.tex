@@ -182,12 +182,12 @@ Four sets of vectors:
     \item residual vectors, $\gls{R}[n] = \{\gls{r}[0],\gls{r}[1],\dots, \gls{r}[n-1]\};$
     \item Krylov vectors, $\gls{K}[n] %= \gls{K}[n](\gls{A},\gls{r}[0]) 
     = \{ \gls{r}[0], \gls{A} \gls{r}[0], \ldots, \gls{A}^{n-1} \gls{r}[0] \}$; and,
-    \item minimisation problem solutions, $\gls{Mtilde}[n] = \{\gls{rho}[1],\gls{rho}[2],\dots, \gls{rho}[n-1], \gls{rho}[n]\}.$
-    \item minimisation problem solutions + current residual, $\gls{M}[n] = \{\gls{rho}[1],\gls{rho}[2],\dots, \gls{rho}[n-1], \gls{r}[n-1]\}.$
+    \item minimisation problem solutions, $\gls{M}[n] = \{\gls{rho}[1],\gls{rho}[2],\dots, \gls{rho}[n-1], \gls{rho}[n]\}.$
+    \item minimisation problem solutions + current residual, $\gls{Mtilde}[n] = \{\gls{rho}[1],\gls{rho}[2],\dots, \gls{rho}[n-1], \gls{r}[n-1]\}.$
 \end{itemize}
 All their affine hulls are equivalent,
 \begin{equation}
-    \gls{aff}(\gls{K}[n]) = \gls{aff}(\gls{R}[n]) = \gls{aff}(\gls{M}[n]) = \gls{aff}(\gls{Mtilde}[n]),
+    \gls{aff}(\gls{K}[n]) = \gls{aff}(\gls{R}[n]) = \gls{aff}(\gls{Mtilde}[n]) = \gls{aff}(\gls{M}[n]),
 \end{equation}
 assuming stagnation, $\gls{r}[i] = \gls{r}[i+1]$ does not happen\footnote{The possibility of stagnation during \gls{aa} has been covered in detail in \cite{Potra2011}.}
 
@@ -210,9 +210,9 @@ Assume now that $
 =
 \gls{aff}(\gls{R}[n])
 =
-\gls{aff}(\gls{M}[n])
+\gls{aff}(\gls{Mtilde}[n])
 =
-\gls{aff}(\gls{Mtilde}[n])$.
+\gls{aff}(\gls{M}[n])$.
 
 By definition $
 \gls{rho}[n]
@@ -238,22 +238,22 @@ Therefore
 \gls{aff}(\gls{K}[n+1]).
 \end{equation}
 
-Further, by induction, $\gls{aff}(\gls{Mtilde}[n]) = \gls{aff}(\gls{R}[n])$, so indeed, $\gls{aff}(\gls{M}[n+1]) = \gls{aff}(\gls{R}[n+1])$. Moreover as $\gls{rho}[n+1] \in \gls{R}[n+1]$, we have that,
+Further, by induction, $\gls{aff}(\gls{M}[n]) = \gls{aff}(\gls{R}[n])$, so indeed, $\gls{aff}(\gls{Mtilde}[n+1]) = \gls{aff}(\gls{R}[n+1])$. Moreover as $\gls{rho}[n+1] \in \gls{R}[n+1]$, we have that,
 \begin{equation}
-    \gls{Mtilde}[n+1] \subseteq \gls{M}[n+1] = \gls{R}[n+1] \subseteq \gls{K}[n+1].
+    \gls{M}[n+1] \subseteq \gls{Mtilde}[n+1] = \gls{R}[n+1] \subseteq \gls{K}[n+1].
 \end{equation}
 
-Now we have, $\gls{rho}[n+1] \in \gls{aff}(\gls{Mtilde}[n+1]) \subseteq \gls{aff}(\gls{R}[n+1])$, so,
+Now we have, $\gls{rho}[n+1] \in \gls{aff}(\gls{M}[n+1]) \subseteq \gls{aff}(\gls{R}[n+1])$, so,
 \begin{equation}
     \gls{rho}[n+1] = \beta_0 \mathbold{v} + \beta_1 \gls{r}[n],
 \end{equation}
-where $\mathbold{v} \in \gls{aff}(\gls{R}[n]) = \gls{aff}(\gls{Mtilde}[n])$ and $\beta_0 + \beta_1 = 1$. Moreover $\beta_1 \neq 0$ since we have explicitly discounted stagnation. Rearranging gives,
+where $\mathbold{v} \in \gls{aff}(\gls{R}[n]) = \gls{aff}(\gls{M}[n])$ and $\beta_0 + \beta_1 = 1$. Moreover $\beta_1 \neq 0$ since we have explicitly discounted stagnation. Rearranging gives,
 \begin{equation}
 \label{eqn:affequivrearrangedi}
-\gls{r}[n] = \frac{1}{\beta_1} \gls{rho}[n+1] - \frac{\beta_0}{\beta_1}\mathbold{v} \in \gls{aff}(\gls{Mtilde}[n+1]),
+\gls{r}[n] = \frac{1}{\beta_1} \gls{rho}[n+1] - \frac{\beta_0}{\beta_1}\mathbold{v} \in \gls{aff}(\gls{M}[n+1]),
 \end{equation}
 since, $\frac{1}{\beta_1} - \frac{\beta_0}{\beta_1} = 1$.
-Finally we have, $\gls{rho}[n] \in \gls{aff}(\gls{Mtilde}[n]) = \gls{aff}(\gls{K}[n])$, so,
+Finally we have, $\gls{rho}[n] \in \gls{aff}(\gls{M}[n]) = \gls{aff}(\gls{K}[n])$, so,
 \begin{equation}
     \gls{rho}[n] = \beta_0 \mathbold{v} + \beta_1 \gls{A}^{n-1} \gls{r}[0],
 \end{equation}
@@ -331,11 +331,59 @@ y = \frac{1}{\gls{emax}} + \sqrt{\frac{1}{\gls{emax}^2}+1}.
 \end{figure}
 \end{frame}
 
-\begin{frame}{Consequences}
+\begin{frame}[allowframebreaks]{The algebra in higher dimensions}
+Considering the matrix, $\gls{Mmat}[k]$, i.e,
+    \begin{equation}\gls{Mmat}[k] = \begin{bmatrix}
+        \gls{rho}[1] & \gls{rho}[2] & \cdots & \gls{rho}[k]
+    \end{bmatrix},
+    \end{equation}
+now assume $\|\gls{rho}[1]\| = 1$, and denote the ratios between subsequent norms as, 
+\begin{equation}
+    \gls{c}[i] := \frac{\|\gls{rho}[i+1]\|}{\|\gls{rho}[i]\|},
+\end{equation}
+then the vector of norms can be written as,
+\begin{equation}
+    \gls{ctildevec}[k] := \begin{bmatrix}
+        \|\gls{rho}[1]\| & \|\gls{rho}[2]\| & \cdots & \|\gls{rho}[k]\|
+    \end{bmatrix}^T
+    = \begin{bmatrix}
+        1 & \gls{c}[1] & \gls{c}[1]\gls{c}[2] & \cdots &\gls{c}[1]\gls{c}[2]\cdots\gls{c}[k-1]
+    \end{bmatrix}^T
+\end{equation}
+Then we some assumptions we have the following nicely structured Gram matrix,
+\begin{equation}
+    \gls{Mmat}[k]^T\gls{Mmat}[k] = \operatorname{diag}(\gls{ctildevec}[k])\gls{KMSmat}[k]\operatorname{diag}(\gls{ctildevec}[k]),
+\end{equation}
+where the middle matrix is formed of the cosines of the inner products between the vectors, and has the following structure,
+\begin{equation}
+    \gls{KMSmat}[k] :=
+    \begin{pmatrix}
+        1 & \gls{c}[1] & \gls{c}[1]\gls{c}[2] & \gls{c}[1]\gls{c}[2]\gls{c}[3] & \cdots & \prod_{j=1}^{k-1}\gls{c}[j] \\
+        \gls{c}[1] & 1 & \gls{c}[2] & \gls{c}[2]\gls{c}[3] & \cdots & \prod_{j=2}^{k-1}\gls{c}[j] \\
+        \gls{c}[1]\gls{c}[2] & \gls{c}[2] & 1 & \gls{c}[3] & \cdots & \prod_{j=3}^{k-1}\gls{c}[j] \\
+        \gls{c}[1]\gls{c}[2]\gls{c}[3] & \gls{c}[2]\gls{c}[3] & \gls{c}[3] & 1 & \cdots & \prod_{j=4}^{k-1}\gls{c}[j] \\
+        \vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\
+        \prod_{j=1}^{k-1}\gls{c}[j] & \prod_{j=2}^{k-1}\gls{c}[j] & \prod_{j=3}^{k-1}\gls{c}[j] & \prod_{j=4}^{k-1}\gls{c}[j] & \cdots & 1
+    \end{pmatrix},
+\end{equation}
+
+this is something like an inhomogeneous Kac-Murdoch-Szeg\"o matrix \cite{Kac1953}, (or the correlation matrix of a time-varying AR(1) process \cite{Charbonnier1987}).
+
+\appxnote{More justification for this decomposition}{
+Since we have shown the hull equivalency we need to show that the $\gls{vecalpha}$ coefficient returned when using this Gram matrix, i.e.,
+    \begin{equation}\label{eqn:vecalphai}
+        \gls{vecalpha} = \frac{(\gls{Mmat}[k]^T\gls{Mmat}[k])^{-1}\gls{e}}{\gls{e}^T(\gls{Mmat}[k]^T\gls{Mmat}[k])^{-1}\gls{e}}.
+    \end{equation}
+is equal to $\gls{e}_k$ (the $k$th standard basis vector). This is straightforward since the explicit form for the inverse of the matrix is easily calculated (see decomposition earlier in the slides).
+}
     
 \end{frame}
 
-\begin{frame}{Gram matrix in the new improvement situation.}
+\begin{frame}{Some matrix algebra}
+    
+\end{frame}
+
+\begin{frame}{Gram matrix in the no improvement situation.}
     
 \end{frame}
 

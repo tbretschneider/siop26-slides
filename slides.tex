@@ -4,14 +4,15 @@
 %for 16x9 (modern wide screen) aspect ratio slides
 \documentclass[aspectratio=169]{beamer}
 
+\setbeamercolor{block title}{fg=red,bg=white}
+\setbeamercolor{block body}{fg=black,bg=red!10!white}
+
 \makeatletter
 \def\input@path{{templates/oxford-maths-slides/}}
 \makeatother
 
 % Oxford Maths theming
 \usetheme{oxfordmaths}
-
-\usepackage{comment}
 
 \usepackage[backposition=title]{beamerappendixnote}
 \usepackage{tikz}
@@ -151,180 +152,212 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Simplification in the Linear Case}
-\begin{itemize}
-    \item Consider an affine fixed-point map $\gls{F}(\gls{x}{}) = \gls{A}\gls{x}{} + \gls{b}$, with fixed-point $\gls{xstar}$ (satisfying $
-        \gls{F}(\gls{xstar})=\gls{xstar}$). 
-    \item We can in fact WLOG let $\gls{b} = 0$.
-    \begin{itemize}
-    \item Define the error as $\gls{eps}[k] := \gls{x}[k]-\gls{xstar}$.
-    \item Since $\gls{xstar} = \gls{A}\gls{xstar}+ \gls{b}$, we have that,
-    \begin{equation}
-        \gls{eps}[k+1] = \gls{A}\gls{eps}[k].
-    \end{equation}
-    \end{itemize}
-\end{itemize}
-\appxnote{Shift details}{
-  Note that subtracting $\gls{xstar}$ off the Picard iteration gives,
-            \begin{equation}\gls{eps}[k+1] = \gls{F}(\gls{x}[k]) - \gls{xstar}.\end{equation}
-            Then using the defining property of $\gls{xstar} = \gls{A}\gls{xstar} - \gls{b}$, and expanding $\gls{F}$,
-            \begin{equation}\gls{eps}[k+1] = \gls{A}\gls{x}[k]+ \gls{b} - A\gls{xstar}-\gls{b}.\end{equation}
-            Which gives, as desired,
-            \begin{equation}\gls{eps}[k+1] = \gls{A}(\gls{x}[k]-\gls{xstar}) = \gls{A}\gls{eps}[k].\end{equation}
-    }
-\end{frame}
+% \begin{frame}{Simplification in the Linear Case}
+%     \begin{itemize}
+%         \item Consider an affine fixed-point map $\gls{F}(\gls{x}) = \gls{A}\gls{x}
+%             + \gls{b}$, with fixed-point $\gls{xstar}$ (satisfying $
+%             \gls{F}(\gls{xstar})=\gls{xstar}$). 
+%         \item We can in fact WLOG let $\gls{b} = 0$.
+%             \begin{itemize}
+%                 \item Define the error as $\gls{eps}[k] := \gls{x}[k]-\gls{xstar}$.
+%                 \item Since $\gls{xstar} = \gls{A}\gls{xstar}+ \gls{b}$, we have that,
+%                     \begin{equation}
+%                         \gls{eps}[k+1] = \gls{A}\gls{eps}[k].
+%                     \end{equation}
+%             \end{itemize}
+%     \end{itemize}
+%     \appxnote{Shift details}{
+%         Note that subtracting $\gls{xstar}$ off the Picard iteration gives,
+%         \begin{equation}
+%             \gls{eps}[k+1] = \gls{F}(\gls{x}[k]) -
+%             \gls{xstar}.
+%         \end{equation}
+%         Then using the defining property of $\gls{xstar} = \gls{A}\gls{xstar} -
+%         \gls{b}$, and expanding $\gls{F}$,
+%         \begin{equation}
+%             \gls{eps}[k+1] = \gls{A}\gls{x}[k]+ \gls{b} -
+%             A\gls{xstar}-\gls{b}.
+%         \end{equation}
+%         Which gives, as desired,
+%         \begin{equation}
+%             \gls{eps}[k+1] = \gls{A}(\gls{x}[k]-\gls{xstar}) =
+%             \gls{A}\gls{eps}[k].
+%         \end{equation}
+%     }
+% \end{frame}
 
 \begin{frame}{Simplification for Linear Case}
-    \begin{itemize}
-        \item Importantly $\gls{A}-\gls{I}$ and $\gls{A}$ commute. So computing the residual commutes with applying the map.
-        \item This gives a simple form of \gls{aa} on residuals. Initial residual is $\gls{r}[0] = (\gls{A}-\gls{I})\gls{x}[0]$.
-    Then we do
+    For a linear map\footnote{this includes affine maps (after translation behaviour is
+    identical).}, $\gls{F}(\gls{x}) = \gls{A}\gls{x}$, \gls{aa} is equivalent to a
+    simple update on residuals:
+    \begin{block}{}
     \begin{enumerate}
-        \item Calculate $\gls{rho}[i+1]$ given by
+        \item Calculate $\gls{rho}[i+1]$ given by,
         \begin{equation}
-    \gls{rho}[i+1] = \operatorname*{arg\,min}_{\mathbold{v} \in \gls{aff}(\gls{R}[i+1])} \|\mathbold{v}\|, \quad \text{where $\gls{R}[i+1] = \{\gls{r}[0], \dots, \gls{r}[i]\}$,}
-    \end{equation}
-        \item Calculate $\gls{r}[i+1]$ given by
-        $\gls{r}[i+1] = \gls{A} \gls{rho}[i+1]$.
+            \gls{rho}[i+1] = \operatorname*{arg\,min}_{\mathbold{v} \in \gls{aff}(\gls{R}[i+1])}
+            \|\mathbold{v}\|, \quad \text{where $\gls{R}[i+1] = \{\gls{r}[0], \dots,
+            \gls{r}[i]\}$,}
+        \end{equation}
+        \item Calculate $\gls{r}[i+1]$ from,
+            \begin{equation}
+            \gls{r}[i+1] = \gls{A} \gls{rho}[i+1].
+            \end{equation}
     \end{enumerate}
-    \end{itemize}
-\appxnote{Residual map equivalency details}{
-We have
-\begin{multline}
-    \gls{r}[i+1] = (\gls{A}-\gls{I}) \gls{x}[i+1] = (\gls{A}-\gls{I})\sum_j \gls{alpha}_j \gls{A} \gls{x}[j] = \\ = \gls{A}\sum_{j} \gls{alpha}_j (\gls{A}-\gls{I})(\gls{x}[j]) = \gls{A} \sum_{j} \gls{alpha}_j \gls{r}[j] = \gls{A} \gls{rho}[i+1],
-\end{multline}
-where we have defined $\gls{rho}[j+1]$ as the point with minimum norm on the affine hull of previous residuals. In the infinite history case, if we let $\gls{R}[i+1]$ denote the set of past $i+1$ residuals this can be written as
-\begin{equation}
-    \gls{rho}[i+1] = \operatorname*{arg\,min}_{\mathbold{v} \in \gls{aff}(\gls{R}[i+1])} \|\mathbold{v}\|,
-\end{equation}
-where $\gls{aff}(\gls{R}[i+1])$ is the affine hull of past residuals.
-}
-   \end{frame}
+    \end{block}
+    Initial residual is $\gls{r}[0] = (\gls{A}-\gls{I})\gls{x}[0]$.
+
+    {\footnotesize Simplifications come as $\gls{A}-\gls{I}$ and $\gls{A}$ commute. Computing the
+    residual commutes with applying the map. More details in \parencite{Garner2023}}
+    % \appxnote{Residual map equivalency details}{
+    %     We have
+    %     \begin{multline}
+    %         \gls{r}[i+1] = (\gls{A}-\gls{I}) \gls{x}[i+1] =
+    %         (\gls{A}-\gls{I})\sum_j \gls{alpha}_j \gls{A} \gls{x}[j] = \\ =
+    %         \gls{A}\sum_{j} \gls{alpha}_j (\gls{A}-\gls{I})(\gls{x}[j]) =
+    %         \gls{A} \sum_{j} \gls{alpha}_j \gls{r}[j] = \gls{A}
+    %         \gls{rho}[i+1],
+    %     \end{multline}
+    %     where we have defined $\gls{rho}[j+1]$ as the point with minimum
+    %     norm on the affine hull of previous residuals. In the infinite
+    %     history case, if we let $\gls{R}[i+1]$ denote the set of past $i+1$
+    %     residuals this can be written as
+    %     \begin{equation}
+    %         \gls{rho}[i+1] = \operatorname*{arg\,min}_{\mathbold{v} \in
+    %         \gls{aff}(\gls{R}[i+1])} \|\mathbold{v}\|,
+    %     \end{equation}
+    %     where $\gls{aff}(\gls{R}[i+1])$ is the affine hull of past residuals.
+    %     }
+\end{frame}
 
 
-\begin{frame}{The minimisation problem \cite{Ni2009}}
+\begin{frame}{Solving the minimisation problem}
     We have 
     \begin{equation}\label{eqn:rhonorm}
         \|\gls{rho}[k]\|^2 = \frac{1}{\gls{e}^T(\gls{Rmat}[k]^T\gls{Rmat}[k])^{-1}\gls{e}},
     \end{equation}
-    where $\gls{e}$ is an appropriately sized vector of ones (so we have the sum of the entries of $(\gls{Rmat}[k]^T\gls{Rmat}[k])^{-1}$), and 
+    where $\gls{e}$ is an appropriately sized vector of ones (so we have the sum of the
+    entries of $(\gls{Rmat}[k]^T\gls{Rmat}[k])^{-1}$), and
     \begin{equation}\gls{Rmat}[k] = \begin{bmatrix}
         \gls{r}[0] & \gls{r}[1] & \cdots & \gls{r}[k-1]
     \end{bmatrix},
     \end{equation}
     the matrix of past $k$ residuals.
 
-\appxnote{Minimum norm proof}{
-\begin{proof}
-The vector of coefficients, $\gls{vecalpha}$, in expansion of $\gls{rho}[k]$ on the previous $k$ residuals is derived using Lagrange multipliers, details of which can be found for example in \cite{Ni2009}. It is given by
-    \begin{equation}\label{eqn:vecalpha}
-        \gls{vecalpha} = \frac{(\gls{Rmat}[k]^T\gls{Rmat}[k])^{-1}\gls{e}}{\gls{e}^T(\gls{Rmat}[k]^T\gls{Rmat}[k])^{-1}\gls{e}}.
-    \end{equation}
-    Since $\gls{rho}[k] = \gls{Rmat}[k]\gls{vecalpha}$,
-    we have that
-    \begin{multline}
-        \|\gls{rho}[k]\|^2 = \gls{vecalpha}^T\gls{Rmat}[k]^T\gls{Rmat}[k]\gls{vecalpha} = \frac{\gls{e}^T(\gls{Rmat}[k]^T\gls{Rmat}[k])^{-1}\gls{Rmat}[k]^T\gls{Rmat}[k](\gls{Rmat}[k]^T\gls{Rmat}[k])^{-1}\gls{e}}{\left(\gls{e}^T(\gls{Rmat}[k]^T\gls{Rmat}[k])^{-1}\gls{e}\right)^2} = \\ = \frac{\gls{e}^T(\gls{Rmat}[k]^T\gls{Rmat}[k])^{-1}\gls{e}}{\left(\gls{e}^T(\gls{Rmat}[k]^T\gls{Rmat}[k])^{-1}\gls{e}\right)^2}.
-    \end{multline}
-\end{proof}}
+    {\footnotesize Details in \parencite{Ni2009}}
+
+    % \appxnote{Minimum norm proof}{
+    %     \begin{proof}
+    %         The vector of coefficients, $\gls{vecalpha}$, in expansion of $\gls{rho}[k]$
+    %         on the previous $k$ residuals is derived using Lagrange multipliers, details
+    %         of which can be found for example in \cite{Ni2009}. It is given by
+    %         \begin{equation}\label{eqn:vecalpha}
+    %             \gls{vecalpha} =
+    %             \frac{(\gls{Rmat}[k]^T\gls{Rmat}[k])^{-1}\gls{e}}{\gls{e}^T(\gls{Rmat}[k]^T\gls{Rmat}[k])^{-1}\gls{e}}.
+    %         \end{equation}
+    %         Since $\gls{rho}[k] = \gls{Rmat}[k]\gls{vecalpha}$,
+    %         we have that
+    %         \begin{multline}
+    %             \|\gls{rho}[k]\|^2 =
+    %             \gls{vecalpha}^T\gls{Rmat}[k]^T\gls{Rmat}[k]\gls{vecalpha} =
+    %             \frac{\gls{e}^T(\gls{Rmat}[k]^T\gls{Rmat}[k])^{-1}\gls{Rmat}[k]^T\gls{Rmat}[k](\gls{Rmat}[k]^T\gls{Rmat}[k])^{-1}\gls{e}}{\left(\gls{e}^T(\gls{Rmat}[k]^T\gls{Rmat}[k])^{-1}\gls{e}\right)^2}
+    %             = \\ =
+    %             \frac{\gls{e}^T(\gls{Rmat}[k]^T\gls{Rmat}[k])^{-1}\gls{e}}{\left(\gls{e}^T(\gls{Rmat}[k]^T\gls{Rmat}[k])^{-1}\gls{e}\right)^2}.
+    %         \end{multline}
+    %     \end{proof}
+    % }
 \end{frame}
 
-\begin{frame}{Affine hull equivalence}
+\begin{frame}{Affine hull equivalences}
 
 Four sets of vectors:
 \begin{itemize}
     \item residual vectors, $\gls{R}[n] = \{\gls{r}[0],\gls{r}[1],\dots, \gls{r}[n-1]\};$
     \item Krylov vectors, $\gls{K}[n] %= \gls{K}[n](\gls{A},\gls{r}[0]) 
     = \{ \gls{r}[0], \gls{A} \gls{r}[0], \ldots, \gls{A}^{n-1} \gls{r}[0] \}$; and,
-    \item minimisation problem solutions, $\gls{M}[n] = \{\gls{rho}[1],\gls{rho}[2],\dots, \gls{rho}[n-1], \gls{rho}[n]\}.$
-    \item minimisation problem solutions + current residual, $\gls{Mtilde}[n] = \{\gls{rho}[1],\gls{rho}[2],\dots, \gls{rho}[n-1], \gls{r}[n-1]\}.$
+    \item minimisation problem solutions, $\gls{M}[n] =
+        \{\gls{rho}[1],\gls{rho}[2],\dots, \gls{rho}[n-1], \gls{rho}[n]\}.$
+    \item minimisation problem solutions + current residual, $\gls{Mtilde}[n] =
+        \{\gls{rho}[1],\gls{rho}[2],\dots, \gls{rho}[n-1], \gls{r}[n-1]\}.$
 \end{itemize}
 All their affine hulls are equivalent,
 \begin{equation}
     \gls{aff}(\gls{K}[n]) = \gls{aff}(\gls{R}[n]) = \gls{aff}(\gls{Mtilde}[n]) = \gls{aff}(\gls{M}[n]),
 \end{equation}
-assuming stagnation, $\gls{r}[i] = \gls{r}[i+1]$ does not happen\footnote{The possibility of stagnation during \gls{aa} has been covered in detail in \cite{Potra2011}.}
+assuming stagnation, $\gls{r}[i] = \gls{r}[i+1]$ does not happen\footnote{The
+    possibility of stagnation during \gls{aa} has been covered in detail in
+    \parencite{Potra2011}.}
 
-\appxnote[allowframebreaks]{Hull equivalency proofs}{
-We use induction. For $n=1$,
-\begin{equation}
-\gls{K}[1]
-=
-\gls{R}[1]
-=
-\gls{M}[1]
-=
-\gls{Mtilde}[1]
-=
-\{\gls{r}[0]\}.
-\end{equation}
-
-Assume now that $
-\gls{aff}(\gls{K}[n])
-=
-\gls{aff}(\gls{R}[n])
-=
-\gls{aff}(\gls{Mtilde}[n])
-=
-\gls{aff}(\gls{M}[n])$.
-
-By definition $
-\gls{rho}[n]
-\in
-\gls{aff}(\gls{R}[n])$. But also by the induction hypothesis,
-$\gls{rho}[n]
-\in
-\gls{aff}(\gls{K}[n]).$
-Applying $\gls{A}$ gives
-$
-\gls{r}[n]
-=
-\gls{A}\gls{rho}[n]
-\in
-\gls{aff}(\gls{K}[n+1]),
-$
-since $\gls{A}$ is linear so affine coefficients will be preserved!
-
-Therefore
-\begin{equation}
-\gls{aff}(\gls{R}[n+1])
-\subseteq
-\gls{aff}(\gls{K}[n+1]).
-\end{equation}
-
-Further, by induction, $\gls{aff}(\gls{M}[n]) = \gls{aff}(\gls{R}[n])$, so indeed, $\gls{aff}(\gls{Mtilde}[n+1]) = \gls{aff}(\gls{R}[n+1])$. Moreover as $\gls{rho}[n+1] \in \gls{R}[n+1]$, we have that,
-\begin{equation}
-    \gls{M}[n+1] \subseteq \gls{Mtilde}[n+1] = \gls{R}[n+1] \subseteq \gls{K}[n+1].
-\end{equation}
-
-Now we have, $\gls{rho}[n+1] \in \gls{aff}(\gls{M}[n+1]) \subseteq \gls{aff}(\gls{R}[n+1])$, so,
-\begin{equation}
-    \gls{rho}[n+1] = \beta_0 \mathbold{v} + \beta_1 \gls{r}[n],
-\end{equation}
-where $\mathbold{v} \in \gls{aff}(\gls{R}[n]) = \gls{aff}(\gls{M}[n])$ and $\beta_0 + \beta_1 = 1$. Moreover $\beta_1 \neq 0$ since we have explicitly discounted stagnation. Rearranging gives,
-\begin{equation}
-\label{eqn:affequivrearrangedi}
-\gls{r}[n] = \frac{1}{\beta_1} \gls{rho}[n+1] - \frac{\beta_0}{\beta_1}\mathbold{v} \in \gls{aff}(\gls{M}[n+1]),
-\end{equation}
-since, $\frac{1}{\beta_1} - \frac{\beta_0}{\beta_1} = 1$.
-Finally we have, $\gls{rho}[n] \in \gls{aff}(\gls{M}[n]) = \gls{aff}(\gls{K}[n])$, so,
-\begin{equation}
-    \gls{rho}[n] = \beta_0 \mathbold{v} + \beta_1 \gls{A}^{n-1} \gls{r}[0],
-\end{equation}
-where $\mathbold{v} \in \gls{aff}(\gls{K}[n -1])$ and $\gamma_0 + \gamma_1 = 1$. Moreover $\gamma_1 \neq 0$ since we have explicitly discounted stagnation. Multiplying by $\gls{A}$ and rearranging gives,
-\begin{equation}
-\label{eqn:affequivrearranged}
-\gls{A}^n \gls{r}[0] = \frac{1}{\gamma_1} \gls{r}[n] - \frac{\gamma_0}{\gamma_1}\gls{A}\mathbold{v},
-\end{equation}
-so, because $\gls{A}\mathbold{v} \in \gls{aff}(\gls{K}[n]) = \gls{aff}(\gls{R}[n])$ and $\frac{1}{\gamma_1} - \frac{\gamma_0}{\gamma_1} = 1$, shows that $\gls{A}^n \gls{r}[0] \in \gls{aff}(\gls{R}[n+1])$. Thus finally we have the desired result.
-}
+% \appxnote[allowframebreaks]{Hull equivalency proofs}{
+%     We use induction. For $n=1$,
+%     \begin{equation}
+%         \gls{K}[1] = \gls{R}[1] = \gls{M}[1] = \gls{Mtilde}[1] = \{\gls{r}[0]\}.
+%     \end{equation}
+%
+%     Assume now that $ \gls{aff}(\gls{K}[n]) = \gls{aff}(\gls{R}[n]) =
+%     \gls{aff}(\gls{Mtilde}[n]) = \gls{aff}(\gls{M}[n])$.
+%
+%     By definition $ \gls{rho}[n] \in \gls{aff}(\gls{R}[n])$. But also by the induction
+%     hypothesis, $\gls{rho}[n] \in \gls{aff}(\gls{K}[n]).$ Applying $\gls{A}$ gives $
+%     \gls{r}[n] = \gls{A}\gls{rho}[n] \in \gls{aff}(\gls{K}[n+1]), $ since $\gls{A}$ is
+%     linear so affine coefficients will be preserved!
+%
+%     Therefore
+%     \begin{equation}
+%         \gls{aff}(\gls{R}[n+1]) \subseteq \gls{aff}(\gls{K}[n+1]).
+%     \end{equation}
+%
+%     Further, by induction, $\gls{aff}(\gls{M}[n]) = \gls{aff}(\gls{R}[n])$, so indeed,
+%     $\gls{aff}(\gls{Mtilde}[n+1]) = \gls{aff}(\gls{R}[n+1])$. Moreover as
+%     $\gls{rho}[n+1] \in \gls{R}[n+1]$, we have that,
+%     \begin{equation}
+%         \gls{M}[n+1] \subseteq \gls{Mtilde}[n+1] = \gls{R}[n+1] \subseteq \gls{K}[n+1].
+%     \end{equation}
+%
+%     Now we have, $\gls{rho}[n+1] \in \gls{aff}(\gls{M}[n+1]) \subseteq
+%     \gls{aff}(\gls{R}[n+1])$, so,
+%     \begin{equation}
+%         \gls{rho}[n+1] = \beta_0 \mathbold{v} + \beta_1 \gls{r}[n],
+%     \end{equation}
+%     where $\mathbold{v} \in \gls{aff}(\gls{R}[n]) = \gls{aff}(\gls{M}[n])$ and $\beta_0
+%     + \beta_1 = 1$. Moreover $\beta_1 \neq 0$ since we have explicitly discounted
+%     stagnation. Rearranging gives,
+%     \begin{equation}
+%         \label{eqn:affequivrearrangedi}
+%         \gls{r}[n] = \frac{1}{\beta_1} \gls{rho}[n+1] -
+%         \frac{\beta_0}{\beta_1}\mathbold{v} \in \gls{aff}(\gls{M}[n+1]),
+%     \end{equation}
+%     since, $\frac{1}{\beta_1} - \frac{\beta_0}{\beta_1} = 1$.
+%     Finally we have, $\gls{rho}[n] \in \gls{aff}(\gls{M}[n]) = \gls{aff}(\gls{K}[n])$,
+%     so,
+%     \begin{equation}
+%         \gls{rho}[n] = \beta_0 \mathbold{v} + \beta_1 \gls{A}^{n-1} \gls{r}[0],
+%     \end{equation}
+%     where $\mathbold{v} \in \gls{aff}(\gls{K}[n -1])$ and $\gamma_0 + \gamma_1 = 1$.
+%     Moreover $\gamma_1 \neq 0$ since we have explicitly discounted stagnation.
+%     Multiplying by $\gls{A}$ and rearranging gives,
+%     \begin{equation}
+%         \label{eqn:affequivrearranged}
+%         \gls{A}^n \gls{r}[0] = \frac{1}{\gamma_1} \gls{r}[n] -
+%         \frac{\gamma_0}{\gamma_1}\gls{A}\mathbold{v},
+%     \end{equation}
+%     so, because $\gls{A}\mathbold{v} \in \gls{aff}(\gls{K}[n]) = \gls{aff}(\gls{R}[n])$
+%     and $\frac{1}{\gamma_1} - \frac{\gamma_0}{\gamma_1} = 1$, shows that $\gls{A}^n
+%     \gls{r}[0] \in \gls{aff}(\gls{R}[n+1])$. Thus finally we have the desired result.
+%     }
 \end{frame}
 
-\begin{frame}{Affine hull equivalence + minimisation problem}
-    Now if we consider the matrices, $\gls{Rmat}[k],\gls{Kmat}[k],\gls{Mmat}[k]$ , corresponding to the sets, $\gls{R}[k],\gls{K}[k],\gls{M}[k]$, we have,
+\begin{frame}{Using equivalence on the minimisation problem}
+
+    Now if we consider the matrices, $\gls{Rmat}[k],\gls{Kmat}[k],\gls{Mmat}[k]$ ,
+    corresponding to the sets, $\gls{R}[k],\gls{K}[k],\gls{M}[k]$, we have,
 
         \begin{equation}\label{eqn:rhonormi}
-        \|\gls{rho}[k]\|^2 = \frac{1}{\gls{e}^T(\gls{Rmat}[k]^T\gls{Rmat}[k])^{-1}\gls{e}} = \frac{1}{\gls{e}^T(\gls{Kmat}[k]^T\gls{Kmat}[k])^{-1}\gls{e}} = \frac{1}{\gls{e}^T(\gls{Mmat}[k]^T\gls{Mmat}[k])^{-1}\gls{e}}.
+        \|\gls{rho}[k]\|^2 =
+            \frac{1}{\gls{e}^T(\gls{Rmat}[k]^T\gls{Rmat}[k])^{-1}\gls{e}} =
+            \frac{1}{\gls{e}^T(\gls{Kmat}[k]^T\gls{Kmat}[k])^{-1}\gls{e}} =
+            \frac{1}{\gls{e}^T(\gls{Mmat}[k]^T\gls{Mmat}[k])^{-1}\gls{e}}.
     \end{equation}
+
 \end{frame}
 
 \begin{frame}{(Tangent) Equivalence to polynomial minimisation}

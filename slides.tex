@@ -11,6 +11,8 @@
 % Oxford Maths theming
 \usetheme{oxfordmaths}
 
+\usepackage{comment}
+
 \usepackage[backposition=title]{beamerappendixnote}
 \usepackage{tikz}
 \usetikzlibrary{calc,angles,quotes}
@@ -21,7 +23,8 @@
 
 \usepackage[
   backend=biber,
-  style=numeric
+  style=authoryear,
+  maxcitenames=1,
 ]{biblatex}
 
 \addbibresource{references.bib}
@@ -130,14 +133,21 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Convergence of \gls{AA}}
+\begin{frame}{Convergence of \gls{aa}}
     \begin{itemize}
-        \item \cite{Toth2015} convergence results without rates or improvement.
-        \item \cite{Evans2020} improved convergence over \gls{pi} without specific factors.
-        \item \cite{d_Aspremont2021} results similar to Krylov analysis of GMRES.
-        \item \cite{Garner2023} specific improvement results for windowed \gls{aa} on symmetric maps.
-        \item \cite{De_Sterck2022} asymptotic convergence rates for restarted \gls{aa} for certain normal linear systems.
-        \item We still don't have a full appreciation of when, and to what extent \gls{aa} improves upon \gls{pi} for all major variants (specifically we shall consider linear maps).
+        \item Proven that \gls{aa} converges when the fixed-point map is contractive
+            \parencite{Toth2015}; \only<1>{\color{red} no improvement over \gls{pi}.} \pause
+        \item Shown that \gls{aa} is no worse than \gls{pi} \parencite{Evans2020};
+            \only<2>{\color{red} no results showning in which cases it is strictly
+            better.} \pause 
+        %\item \cite{d_Aspremont2021} results similar to Krylov analysis of GMRES.
+        \item Then in \parencite{Garner2023} for windowed \gls{aa} on symmetric maps strict
+            improvement bounds are shown. \pause
+        \item Later \parencite{De_Sterck2022} also for restarted \gls{aa} on further normal
+            linear systems explicit convergence rates are found. \pause
+        \item {\color{red} We still don't have a full appreciation of when, and to what
+            extent \gls{aa} (any variant) improves upon \gls{pi} (even just on
+            \textbf{linear maps}).}
     \end{itemize}
 \end{frame}
 

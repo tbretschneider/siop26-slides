@@ -492,6 +492,7 @@ assuming stagnation, $\gls{r}[i] = \gls{r}[i+1]$ does not happen\footnote{The
 \end{frame}
 
 \begin{frame}[allowframebreaks]{Behaviour of $\gls{rho}[i]$ in higher dimensions}
+
     Considering the matrix, $\gls{Mmat}[k]$, i.e,
     \begin{equation}
         \gls{Mmat}[k] = 
@@ -508,7 +509,8 @@ assuming stagnation, $\gls{r}[i] = \gls{r}[i+1]$ does not happen\footnote{The
         \gls{ctildevec}[k] := \begin{bmatrix}
             \|\gls{rho}[1]\| & \|\gls{rho}[2]\| & \cdots & \|\gls{rho}[k]\|
         \end{bmatrix}^T
-        = \begin{bmatrix}
+        = 
+        \begin{bmatrix}
             1 & \gls{c}[1] & \gls{c}[1]\gls{c}[2] & \cdots
             &\gls{c}[1]\gls{c}[2]\cdots\gls{c}[k-1]
         \end{bmatrix}^T
@@ -571,7 +573,7 @@ assuming stagnation, $\gls{r}[i] = \gls{r}[i+1]$ does not happen\footnote{The
 %
 % \end{frame}
 
-\begin{frame}{Perturbations of $\gls{KMSmat}[k]$}
+\begin{frame}{Optimality theorem}
 
     Letting $\gls{KMSL}[k]\gls{KMSL}[k]^T = \gls{KMSmat}[k]$, (the Cholesky
     decomposition), we denote the last row of $\gls{KMSL}[k]$ as,

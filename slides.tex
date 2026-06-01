@@ -73,32 +73,75 @@
   \titlepage
 \end{frame}
 
-\begin{frame}{\glsfirst{aa}}
+\begin{frame}{Fixed-point problems}
     \begin{itemize}
-        \item Given a function $\gls{F} :\gls{Reals}[n] \to \gls{Reals}[n]$ we want to find an approximate fixed-point $\gls{x}[*]\in\gls{Reals}[n]$ s.t. $\gls{F}(\gls{x}[*]) \approx \gls{x}[*]$.
-        \item \gls{pi} would produce a sequence of iterates $(\gls{x}_i^\text{\gls{pi}})_{i \in \gls{Naturals}}$ by starting with initial guess $\gls{x}[0]$ and repeatedly applying $\gls{F}$, 
-\begin{equation}
-    \gls{x}_{i+1}^\text{\gls{pi}} = \gls{F}(\gls{x}_i^\text{\gls{pi}}).
-\end{equation}
-\item \gls{pi} only works for contractive $\gls{F}$, and can have slow convergence. {\color{red}\emph{Can we utilise the history to have an idea of where we are going?}}
-\item \gls{aa} each time takes a linear combination of multiple previous iterates. It produces a sequence, $(\gls{x}[i])_{i \in \gls{Naturals}}$ with
-\begin{equation}\label{eqn:simpaaform}
-    \gls{x}[i+1] = \sum_{j} \gls{alpha}_j \gls{F}(\gls{x}[j]),
-\end{equation}
-for coefficients $\gls{alpha}_j$, which solve a particular minimisation problem (minimum norm combination over affine hull of past residuals).
+        \item Given a function $\gls{F} :\gls{Reals}[n] \to \gls{Reals}[n]$ we want to
+            find an approximate fixed-point $\gls{x}[*]\in\gls{Reals}[n]$ s.t.
+            $\gls{F}(\gls{x}[*]) \approx \gls{x}[*]$.
+        \item \gls{pi} would produce a sequence of iterates
+            $(\gls{x}_i^\text{\gls{pi}})_{i \in \gls{Naturals}}$ by starting with
+            initial guess $\gls{x}[0]$ and repeatedly applying $\gls{F}$, 
+            \begin{equation}
+                \gls{x}_{i+1}^\text{\gls{pi}} = \gls{F}(\gls{x}_i^\text{\gls{pi}}).
+            \end{equation}
+        \item \gls{pi} only works for contractive $\gls{F}$, and can have slow
+            convergence. 
+        \item {\color{red}\emph{Idea: Can we utilise the history to have an idea of
+            where we are going?}}
     \end{itemize}
 \end{frame}
 
-\begin{frame}{\gls{aa} Variants}
+\begin{frame}{\only<3>{{\color{red} Infinite History }}%
+            \only<4>{{\color{red} Restarted }}%
+            \only<5>{{\color{red} Windowed }}%
+            \only<6>{{\color{red} Alternating \gls{pi} }}%
+            \glsfirst{aa}}
     \begin{itemize}
-        \item infinite: all past iterates are considered; convergence in a finite number of steps.
-        \item windowed: considers the past $m$ residuals for the minimisation problem.
-        \item restarted: clears the entire history after $m$ steps and restarts.
-        \item alternating: takes sometimes multiple pure \gls{pi} steps between computing the \gls{aa} iterate (like applying \gls{aa} to a power of the map).
+        \only<1>{\item We have the residual at each step, $\gls{r}[i] := \gls{F}(\gls{x}_i) -
+            \gls{x}_i$; a measure of deviation from the fixed-point.}
+        \only<1>{\item Under ``linearisation'' combining past iterates such that their
+            ``combined'' residuals are small should be good.}
+        \only<2-5>{\item \only<2>{\gls{aa} each time takes a linear combination of multiple previous
+            iterates. It p}\only<3->{P}roduces a sequence, $(\gls{x}[i])_{i \in \gls{Naturals}}$
+            with
+            \begin{equation}\label{eqn:simpaaform}
+                \gls{x}[i+1] = \only<2,6>{\sum_{j}}
+                            \only<3>{\sum_{{\color{red} j=0}}^{{\color{red} i}}}
+                            \only<4>{\sum_{{\color{red} j=i-(i \bmod m)}}^{{\color{red} i}}}
+                            \only<5>{\sum_{{\color{red} j=i-m+1}}^{{\color{red} i}}}
+                \gls{alpha}_j \gls{F}(\gls{x}[j]),
+            \end{equation}
+            for coefficients $\gls{alpha}_j$, (computed at each step) solving,
+            \begin{equation}
+                \gls{vecalpha} =  \operatorname*{arg\,min}_{\gls{vecalpha} \text{ st.}
+                \sum_j
+                \gls{alpha}_j = 1} \left\|%
+                    \only<2,6>{\sum_j}
+                    \only<3>{\sum_{{\color{red} j=0}}^{{\color{red} i}}}
+                    \only<4>{\sum_{{\color{red} j=i - (i \bmod m)}}^{{\color{red} i}}}
+                    \only<5>{\sum_{{\color{red} j=i-m+1}}^{{\color{red} i}}}
+                \gls{alpha}_j \gls{r}[j]\right\|.
+            \end{equation}}
+        \only<3>{\item {\color{red} Uses all the past residuals.}}
+        \only<4>{\item {\color{red} Clears the history every $m$ steps.}}
+        \only<5>{\item {\color{red} Keeps a maximum history of size $m$.}}
+        \only<6>{\item {\color{red} Takes $k$ \gls{pi} steps inbetween each \gls{aa}
+            update (can also be combined with other variants).}}
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Simplification for Linear Case I}
+\begin{frame}{Convergence of \gls{AA}}
+    \begin{itemize}
+        \item \cite{Toth2015} convergence results without rates or improvement.
+        \item \cite{Evans2020} improved convergence over \gls{pi} without specific factors.
+        \item \cite{d_Aspremont2021} results similar to Krylov analysis of GMRES.
+        \item \cite{Garner2023} specific improvement results for windowed \gls{aa} on symmetric maps.
+        \item \cite{De_Sterck2022} asymptotic convergence rates for restarted \gls{aa} for certain normal linear systems.
+        \item We still don't have a full appreciation of when, and to what extent \gls{aa} improves upon \gls{pi} for all major variants (specifically we shall consider linear maps).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Simplification in the Linear Case}
 \begin{itemize}
     \item Consider an affine fixed-point map $\gls{F}(\gls{x}{}) = \gls{A}\gls{x}{} + \gls{b}$, with fixed-point $\gls{xstar}$ (satisfying $
         \gls{F}(\gls{xstar})=\gls{xstar}$). 
@@ -121,7 +164,7 @@ for coefficients $\gls{alpha}_j$, which solve a particular minimisation problem 
     }
 \end{frame}
 
-\begin{frame}{Simplification for Linear Case II \cite{Garner2023}}
+\begin{frame}{Simplification for Linear Case}
     \begin{itemize}
         \item Importantly $\gls{A}-\gls{I}$ and $\gls{A}$ commute. So computing the residual commutes with applying the map.
         \item This gives a simple form of \gls{aa} on residuals. Initial residual is $\gls{r}[0] = (\gls{A}-\gls{I})\gls{x}[0]$.
@@ -148,21 +191,6 @@ where $\gls{aff}(\gls{R}[i+1])$ is the affine hull of past residuals.
 }
    \end{frame}
 
-\begin{frame}{Existing/Related work}
-    \begin{itemize}
-        \item \cite{Toth2015} convergence results without rates or improvement.
-        \item \cite{Evans2020} improved convergence over \gls{pi} without specific factors.
-        \item \cite{d_Aspremont2021} results similar to Krylov analysis of GMRES.
-        \item \cite{Garner2023} specific improvement results for windowed \gls{aa} on symmetric maps.
-        \item \cite{De_Sterck2022} asymptotic convergence rates for restarted \gls{aa} for certain normal linear systems.
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{Open questions}
-    \begin{itemize}
-        \item We still don't have a full appreciation of when, and to what extent \gls{aa} improves upon \gls{pi} for all major variants (specifically we shall consider linear maps).
-    \end{itemize}
-\end{frame}
 
 \begin{frame}{The minimisation problem \cite{Ni2009}}
     We have 

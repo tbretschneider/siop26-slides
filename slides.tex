@@ -482,197 +482,224 @@ assuming stagnation, $\gls{r}[i] = \gls{r}[i+1]$ does not happen\footnote{The
     }
 \end{frame}
 
-\begin{frame}{Approach II: Some geometric intuition (2D)}
-\begin{figure}
-    \centering
-    \input{tikz/circle}
-    \caption{2D intuition}
-    \label{fig:2dpicture}
-\end{figure}
+\begin{frame}{Approach II: Behaviour of $\gls{rho}[i]$, geometric intuition (2D)}
+    \begin{figure}
+        \centering
+        \input{tikz/circle}
+        \caption{2D intuition}
+        \label{fig:2dpicture}
+    \end{figure}
 \end{frame}
 
-\begin{frame}[allowframebreaks]{The algebra in higher dimensions}
-Considering the matrix, $\gls{Mmat}[k]$, i.e,
-    \begin{equation}\gls{Mmat}[k] = \begin{bmatrix}
-        \gls{rho}[1] & \gls{rho}[2] & \cdots & \gls{rho}[k]
-    \end{bmatrix},
+\begin{frame}[allowframebreaks]{Behaviour of $\gls{rho}[i]$ in higher dimensions}
+    Considering the matrix, $\gls{Mmat}[k]$, i.e,
+    \begin{equation}
+        \gls{Mmat}[k] = 
+        \begin{bmatrix}
+            \gls{rho}[1] & \gls{rho}[2] & \cdots & \gls{rho}[k]
+        \end{bmatrix},
     \end{equation}
-now assume $\|\gls{rho}[1]\| = 1$, and denote the ratios between subsequent norms as, 
-\begin{equation}
-    \gls{c}[i] := \frac{\|\gls{rho}[i+1]\|}{\|\gls{rho}[i]\|},
-\end{equation}
-then the vector of norms can be written as,
-\begin{equation}
-    \gls{ctildevec}[k] := \begin{bmatrix}
-        \|\gls{rho}[1]\| & \|\gls{rho}[2]\| & \cdots & \|\gls{rho}[k]\|
-    \end{bmatrix}^T
-    = \begin{bmatrix}
-        1 & \gls{c}[1] & \gls{c}[1]\gls{c}[2] & \cdots &\gls{c}[1]\gls{c}[2]\cdots\gls{c}[k-1]
-    \end{bmatrix}^T
-\end{equation}
-Then we some assumptions we have the following nicely structured Gram matrix,
-\begin{equation}
-    \gls{Mmat}[k]^T\gls{Mmat}[k] = \operatorname{diag}(\gls{ctildevec}[k])\gls{KMSmat}[k]\operatorname{diag}(\gls{ctildevec}[k]),
-\end{equation}
-where the middle matrix is formed of the cosines of the inner products between the vectors, and has the following structure,
-\begin{equation}
-    \gls{KMSmat}[k] :=
-    \begin{pmatrix}
-        1 & \gls{c}[1] & \gls{c}[1]\gls{c}[2] & \gls{c}[1]\gls{c}[2]\gls{c}[3] & \cdots & \prod_{j=1}^{k-1}\gls{c}[j] \\
-        \gls{c}[1] & 1 & \gls{c}[2] & \gls{c}[2]\gls{c}[3] & \cdots & \prod_{j=2}^{k-1}\gls{c}[j] \\
-        \gls{c}[1]\gls{c}[2] & \gls{c}[2] & 1 & \gls{c}[3] & \cdots & \prod_{j=3}^{k-1}\gls{c}[j] \\
-        \gls{c}[1]\gls{c}[2]\gls{c}[3] & \gls{c}[2]\gls{c}[3] & \gls{c}[3] & 1 & \cdots & \prod_{j=4}^{k-1}\gls{c}[j] \\
-        \vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\
-        \prod_{j=1}^{k-1}\gls{c}[j] & \prod_{j=2}^{k-1}\gls{c}[j] & \prod_{j=3}^{k-1}\gls{c}[j] & \prod_{j=4}^{k-1}\gls{c}[j] & \cdots & 1
-    \end{pmatrix},
-\end{equation}
-
-this is something like an inhomogeneous \gls{kms} \cite{Kac1953}, (or the correlation matrix of a time-varying AR(1) process \cite{Charbonnier1987}).
-
-\appxnote{More justification for this decomposition}{
-Since we have shown the hull equivalency we need to show that the $\gls{vecalpha}$ coefficient returned when using this Gram matrix, i.e.,
-    \begin{equation}\label{eqn:vecalphai}
-        \gls{vecalpha} = \frac{(\gls{Mmat}[k]^T\gls{Mmat}[k])^{-1}\gls{e}}{\gls{e}^T(\gls{Mmat}[k]^T\gls{Mmat}[k])^{-1}\gls{e}}.
+    now assume $\|\gls{rho}[1]\| = 1$, and denote the ratios between subsequent norms as, 
+    \begin{equation}
+        \gls{c}[i] := \frac{\|\gls{rho}[i+1]\|}{\|\gls{rho}[i]\|},
     \end{equation}
-is equal to $\gls{e}_k$ (the $k$th standard basis vector). This is straightforward since the explicit form for the inverse of the matrix is easily calculated (see decomposition earlier in the slides).
-}
-    
+    then the vector of norms can be written as,
+    \begin{equation}
+        \gls{ctildevec}[k] := \begin{bmatrix}
+            \|\gls{rho}[1]\| & \|\gls{rho}[2]\| & \cdots & \|\gls{rho}[k]\|
+        \end{bmatrix}^T
+        = \begin{bmatrix}
+            1 & \gls{c}[1] & \gls{c}[1]\gls{c}[2] & \cdots
+            &\gls{c}[1]\gls{c}[2]\cdots\gls{c}[k-1]
+        \end{bmatrix}^T
+    \end{equation}
+    Then we some assumptions we have the following nicely structured Gram matrix,
+    \begin{equation}
+        \gls{Mmat}[k]^T\gls{Mmat}[k] =
+        \operatorname{diag}(\gls{ctildevec}[k])\gls{KMSmat}[k]\operatorname{diag}(\gls{ctildevec}[k]),
+    \end{equation}
+    where the middle matrix is formed of the cosines of the inner products between the
+    vectors, and has the following structure,
+    \begin{equation}
+        \gls{KMSmat}[k] :=
+        \begin{pmatrix}
+            1 & \gls{c}[1] & \gls{c}[1]\gls{c}[2] & \gls{c}[1]\gls{c}[2]\gls{c}[3] & \cdots & \prod_{j=1}^{k-1}\gls{c}[j] \\
+            \gls{c}[1] & 1 & \gls{c}[2] & \gls{c}[2]\gls{c}[3] & \cdots & \prod_{j=2}^{k-1}\gls{c}[j] \\
+            \gls{c}[1]\gls{c}[2] & \gls{c}[2] & 1 & \gls{c}[3] & \cdots & \prod_{j=3}^{k-1}\gls{c}[j] \\
+            \gls{c}[1]\gls{c}[2]\gls{c}[3] & \gls{c}[2]\gls{c}[3] & \gls{c}[3] & 1 & \cdots & \prod_{j=4}^{k-1}\gls{c}[j] \\
+            \vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\
+            \prod_{j=1}^{k-1}\gls{c}[j] & \prod_{j=2}^{k-1}\gls{c}[j] & \prod_{j=3}^{k-1}\gls{c}[j] & \prod_{j=4}^{k-1}\gls{c}[j] & \cdots & 1
+        \end{pmatrix},
+    \end{equation}
+
+    this is something like an inhomogeneous \gls{kms} \parencite{Kac1953}, (or the
+    correlation matrix of a time-varying AR(1) process \parencite{Charbonnier1987}).
+
+% \appxnote{More justification for this decomposition}{
+%     Since we have shown the hull equivalency we need to show that the $\gls{vecalpha}$ coefficient returned when using this Gram matrix, i.e.,
+%     \begin{equation}\label{eqn:vecalphai}
+%         \gls{vecalpha} = \frac{(\gls{Mmat}[k]^T\gls{Mmat}[k])^{-1}\gls{e}}{\gls{e}^T(\gls{Mmat}[k]^T\gls{Mmat}[k])^{-1}\gls{e}}.
+%     \end{equation}
+%     is equal to $\gls{e}_k$ (the $k$th standard basis vector). This is straightforward since the explicit form for the inverse of the matrix is easily calculated (see decomposition earlier in the slides).
+%     }
+
 \end{frame}
 
-\begin{frame}{Facts about the $\gls{KMSmat}[k]$ matrix}
-
-Given the matrices, 
-\begin{equation}
-    \gls{KMSD}[k] = \operatorname{diag}(\begin{bmatrix}
-        1 & 1-\gls{c}[1]^2 & 1 - \gls{c}[2]^2&\cdots & 1-\gls{c}[k-1]^2
-    \end{bmatrix}^T),
-\end{equation}
-\begin{equation}
-    \gls{KMSLtilde}[k]^{-1} = \begin{pmatrix}
-        1 & 0 & 0 & \cdots & 0 & 0 \\
-        -\gls{c}[1] & 1 & 0 & \cdots  & 0 & 0 \\
-        0 & -\gls{c}[2] & 1 & \cdots & 0 & 0 \\
-        \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
-        0 &  0 & 0 & \cdots & 1 & 0 \\
-        0 & 0 & 0 & \cdots & -\gls{c}[k-1] & 1
-    \end{pmatrix}
-\end{equation}
-
-we have the decomposition,
-\begin{equation}
-    \gls{KMSmat}[k] = \gls{KMSLtilde}[k] \gls{KMSD}[k] \gls{KMSLtilde}[k]^T.
-\end{equation}
-    
-\end{frame}
+% \begin{frame}{Facts about the $\gls{KMSmat}[k]$ matrix}
+%
+%     Given the matrices, 
+%     \begin{equation}
+%         \gls{KMSD}[k] = \operatorname{diag}(\begin{bmatrix}
+%             1 & 1-\gls{c}[1]^2 & 1 - \gls{c}[2]^2&\cdots & 1-\gls{c}[k-1]^2
+%         \end{bmatrix}^T),
+%     \end{equation}
+%     \begin{equation}
+%         \gls{KMSLtilde}[k]^{-1} = \begin{pmatrix}
+%             1 & 0 & 0 & \cdots & 0 & 0 \\
+%             -\gls{c}[1] & 1 & 0 & \cdots  & 0 & 0 \\
+%             0 & -\gls{c}[2] & 1 & \cdots & 0 & 0 \\
+%             \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+%             0 &  0 & 0 & \cdots & 1 & 0 \\
+%             0 & 0 & 0 & \cdots & -\gls{c}[k-1] & 1
+%         \end{pmatrix}
+%     \end{equation}
+%
+%     we have the decomposition,
+%     \begin{equation}
+%         \gls{KMSmat}[k] = \gls{KMSLtilde}[k] \gls{KMSD}[k] \gls{KMSLtilde}[k]^T.
+%     \end{equation}
+%
+% \end{frame}
 
 \begin{frame}{Perturbations of $\gls{KMSmat}[k]$}
 
-Letting $\gls{KMSL}[k]\gls{KMSL}[k]^T = \gls{KMSmat}[k]$, (the Cholesky decomposition), we denote the last row of $\gls{KMSL}[k]$ as,
-\begin{equation}
-    \gls{KMSl} = \gls{KMSL}[k]^T \gls{e}_k.
-\end{equation}
-Now if (after factoring out vector norms), $\gls{Mtildemat}[k]^T\gls{Mtildemat}[k]$ has a Cholesky decomposition with last row, $\gls{KMSlpert}$, then we have
+    Letting $\gls{KMSL}[k]\gls{KMSL}[k]^T = \gls{KMSmat}[k]$, (the Cholesky
+    decomposition), we denote the last row of $\gls{KMSL}[k]$ as,
+    \begin{equation}
+        \gls{KMSl} = \gls{KMSL}[k]^T \gls{e}_k.
+    \end{equation}
+    Now if (after factoring out vector norms), $\gls{Mtildemat}[k]^T\gls{Mtildemat}[k]$
+    has a Cholesky decomposition with last row, $\gls{KMSlpert}$, then we have
 
-\begin{theorem}\label{thm:perturbation}
-\begin{equation}
-    \|\gls{rho}[k]\|^2 = \frac{1}{\gls{e}^T(\gls{Mtildemat}[k]^T\gls{Mtildemat}[k])^{-1}\gls{e}} = \frac{\|\gls{r}[k-1]\|^2}{\gamma},
-\end{equation}
-with,
-\begin{equation}
-    \gamma := 1 + \left(\frac{1-\gls{KMSlpert}\cdot\gls{KMSl}}{\gls{KMSlpert}\cdot\gls{e}_k}\right)^2 + 2(\gls{KMSl}\cdot\gls{e}_k)\left(\frac{1-\gls{KMSlpert}\cdot\gls{KMSl}}{\gls{KMSlpert}\cdot\gls{e}[k]}\right)\geq 1
-\end{equation}
-\end{theorem}
+    \begin{theorem}\label{thm:perturbation}
+        \begin{equation}
+            \|\gls{rho}[k]\|^2 =
+            \frac{1}{\gls{e}^T(\gls{Mtildemat}[k]^T\gls{Mtildemat}[k])^{-1}\gls{e}} =
+            \frac{\|\gls{r}[k-1]\|^2}{\gamma},
+        \end{equation}
+        with,
+        \begin{equation}
+            \gamma := 1 +
+            \left(\frac{1-\gls{KMSlpert}\cdot\gls{KMSl}}{\gls{KMSlpert}\cdot\gls{e}_k}\right)^2
+            +
+            2(\gls{KMSl}\cdot\gls{e}_k)\left(\frac{1-\gls{KMSlpert}\cdot\gls{KMSl}}{\gls{KMSlpert}\cdot\gls{e}[k]}\right)\geq
+            1
+        \end{equation}
+    \end{theorem}
 
 \end{frame}
 
 \begin{frame}{Implications}
 
-\begin{itemize}
-    \item In other words if the next residual $\gls{r}[k]$ leads to a Gram matrix that is of a different form than our inhomogeneous \gls{kms} matrix then we have that $\gls{rho}[k+1]$ will be smaller than $\gls{r}[k]$ by a set factor.
-    \item This is a similar idea to the stage-$k$ gain defined in \cite{Evans2020}. 
-\end{itemize}
+    \begin{itemize}
+        \item In other words if the next residual $\gls{r}[k]$ leads to a Gram matrix
+            that is of a different form than our inhomogeneous \gls{kms} matrix then we
+            have that $\gls{rho}[k+1]$ will be smaller than $\gls{r}[k]$ by a set
+            factor.
+        \item This is a similar idea to the stage-$k$ gain defined in \cite{Evans2020}.
+    \end{itemize}
 
-\appxnote[allowframebreaks]{Details about perturbation argument}{
-We start with $\gls{KMSL}$, the factor in the Cholesky decomposition. We wish to find out how the inverse changes with respect to a rank-1 update given by,
-\begin{equation}
-    \gls{KMSL} \leftarrow \gls{KMSL} + \gls{e}_k (\gls{KMSlpert} - \gls{KMSl}).
-\end{equation}
-Now note the following elementary facts, 
-\begin{equation}
-    \gls{KMSl}^T \gls{KMSL}^{-1} = \gls{e}_k^T, \quad
-    \gls{KMSL}^{-1}\gls{e}_k = \frac{\gls{e}_k}{\gls{KMSl}\cdot\gls{e}_k}.
-\end{equation}
-So that by the Sherman-Morrison formula we have,
-\begin{equation}
-    \gls{KMSL}^{-1} \leftarrow \gls{KMSL}^{-1} + \frac{\gls{e}_k\gls{e}_k^T-\gls{e}_k\gls{KMSlpert}^T\gls{KMSL}^{-1}}{\gls{KMSlpert}\cdot\gls{e}_k}.
-\end{equation}
-To complete the computation we then need,
-\begin{equation}
-\gls{ew}_k := \begin{bmatrix}
-        \frac{1}{\|\gls{rho}[1]\|} & \frac{1}{\|\gls{rho}[2]\|} & \cdots & \frac{1}{\|\gls{rho}[k-1]\|} & \frac{1}{\|\gls{r}[k-1]\|}
-    \end{bmatrix}^T = \gls{diag}(\mathbold{v})^{-1}\gls{e},
-\end{equation}
-which is such that,
-\begin{equation}
-    \|\gls{KMSL}^{-1}\gls{ew}_k\|^2 = \gls{e}^T\gls{Mtildemat}[k]\gls{Mtildemat}[k]\gls{e},
-\end{equation}
-where the $\gls{KMSL}^{-1}$ is the updated version!
-Now we again have the following facts,
-\begin{equation}
-    \gls{KMSL}^{-1}\gls{ew}_k = \frac{\gls{KMSL}^T\gls{e}_k}{\|\gls{r}[k-1]\|} = \frac{\gls{KMSl}}{\|\gls{r}[k-1]}, \quad \gls{e}_k\gls{e}_k^T \gls{ew} = \frac{\gls{e}_k}{\|\gls{r}[k-1]\|}.
-\end{equation}
-Giving that,
-\begin{equation}
-    \left(\gls{KMSL}^{-1} + \frac{\gls{e}_k\gls{e}_k^T-\gls{e}_k\gls{KMSlpert}^T\gls{KMSL}^{-1}}{\gls{KMSlpert}\cdot\gls{e}_k}\right)\gls{ew} = \frac{1}{\|\gls{r}[k-1]\|}\left(\gls{KMSl}+\frac{1-\gls{KMSlpert}\cdot\gls{KMSl}}{\gls{KMSlpert}\cdot\gls{e}_k}\gls{e}_k\right).
-\end{equation}
-So the norm of this vector is,
-\begin{equation}
-    \frac{1}{\|\gls{r}[k-1]\|^2} \left(1+\left[\frac{1-\gls{KMSlpert}\cdot\gls{KMSl}}{\gls{KMSlpert}\cdot\gls{e}_k}\right]^2+2(\gls{KMSl}\cdot\gls{e}_k)\left[\frac{1-\gls{KMSlpert}\cdot\gls{KMSl}}{\gls{KMSlpert}\cdot\gls{e}_k}\right]\right).
-\end{equation}
-    }
+% \appxnote[allowframebreaks]{Details about perturbation argument}{
+%     We start with $\gls{KMSL}$, the factor in the Cholesky decomposition. We wish to find out how the inverse changes with respect to a rank-1 update given by,
+%     \begin{equation}
+%         \gls{KMSL} \leftarrow \gls{KMSL} + \gls{e}_k (\gls{KMSlpert} - \gls{KMSl}).
+%     \end{equation}
+%     Now note the following elementary facts, 
+%     \begin{equation}
+%         \gls{KMSl}^T \gls{KMSL}^{-1} = \gls{e}_k^T, \quad
+%         \gls{KMSL}^{-1}\gls{e}_k = \frac{\gls{e}_k}{\gls{KMSl}\cdot\gls{e}_k}.
+%     \end{equation}
+%     So that by the Sherman-Morrison formula we have,
+%     \begin{equation}
+%         \gls{KMSL}^{-1} \leftarrow \gls{KMSL}^{-1} + \frac{\gls{e}_k\gls{e}_k^T-\gls{e}_k\gls{KMSlpert}^T\gls{KMSL}^{-1}}{\gls{KMSlpert}\cdot\gls{e}_k}.
+%     \end{equation}
+%     To complete the computation we then need,
+%     \begin{equation}
+%         \gls{ew}_k := \begin{bmatrix}
+%             \frac{1}{\|\gls{rho}[1]\|} & \frac{1}{\|\gls{rho}[2]\|} & \cdots & \frac{1}{\|\gls{rho}[k-1]\|} & \frac{1}{\|\gls{r}[k-1]\|}
+%         \end{bmatrix}^T = \gls{diag}(\mathbold{v})^{-1}\gls{e},
+%     \end{equation}
+%     which is such that,
+%     \begin{equation}
+%         \|\gls{KMSL}^{-1}\gls{ew}_k\|^2 = \gls{e}^T\gls{Mtildemat}[k]\gls{Mtildemat}[k]\gls{e},
+%     \end{equation}
+%     where the $\gls{KMSL}^{-1}$ is the updated version!
+%     Now we again have the following facts,
+%     \begin{equation}
+%         \gls{KMSL}^{-1}\gls{ew}_k = \frac{\gls{KMSL}^T\gls{e}_k}{\|\gls{r}[k-1]\|} = \frac{\gls{KMSl}}{\|\gls{r}[k-1]}, \quad \gls{e}_k\gls{e}_k^T \gls{ew} = \frac{\gls{e}_k}{\|\gls{r}[k-1]\|}.
+%     \end{equation}
+%     Giving that,
+%     \begin{equation}
+%         \left(\gls{KMSL}^{-1} + \frac{\gls{e}_k\gls{e}_k^T-\gls{e}_k\gls{KMSlpert}^T\gls{KMSL}^{-1}}{\gls{KMSlpert}\cdot\gls{e}_k}\right)\gls{ew} = \frac{1}{\|\gls{r}[k-1]\|}\left(\gls{KMSl}+\frac{1-\gls{KMSlpert}\cdot\gls{KMSl}}{\gls{KMSlpert}\cdot\gls{e}_k}\gls{e}_k\right).
+%     \end{equation}
+%     So the norm of this vector is,
+%     \begin{equation}
+%         \frac{1}{\|\gls{r}[k-1]\|^2} \left(1+\left[\frac{1-\gls{KMSlpert}\cdot\gls{KMSl}}{\gls{KMSlpert}\cdot\gls{e}_k}\right]^2+2(\gls{KMSl}\cdot\gls{e}_k)\left[\frac{1-\gls{KMSlpert}\cdot\gls{KMSl}}{\gls{KMSlpert}\cdot\gls{e}_k}\right]\right).
+%     \end{equation}
+% }
 \end{frame}
 
 \begin{frame}{\gls{aa} no improvement examples}
-When all the $\gls{c}[i]$ are constant (say $\gls{c}$) we can find an orthogonal matrix $\gls{A}$ such that \gls{aa} applied to $\gls{c}\gls{A}$ with an appropriate intial point produces exactly the same iterates as \gls{pi}.
 
-\begin{itemize}
-    \item Works for both restarted, and windowed \gls{aa} (with some assumptions).
-    \item In essence the "rotation" of vectors has to match their "shrinking".
-\end{itemize}
+    When all the $\gls{c}[i]$ are constant (say $\gls{c}$) we can find an orthogonal
+    matrix $\gls{A}$ such that \gls{aa} applied to $\gls{c}\gls{A}$ with an appropriate
+    intial point produces exactly the same iterates as \gls{pi}.
 
-\appxnote{Finding the no improvement examples}{
-When all the $\gls{c}[i]$ are constant we get exactly the \gls{kms} matrix. Can then take the Cholesky factorisation of this, and use the vectors in this to create a moment problem \cite{Vorobyev1965}. Adding the additional assumptions for orthogonality gives a well-defined linear map. 
+    \begin{itemize}
+        \item Works for both restarted, and windowed \gls{aa} (with some assumptions).
+        \item In essence the ``rotation'' of vectors has to match their ``shrinking''.
+    \end{itemize}
 
-Finally, in the restarted and windowed cases the orthogonality ensures that inner products remain the same no matter how much the map is applied. Thus in the asymptotic case the no-improvement idea holds.
-}
+    % \appxnote{Finding the no improvement examples}{
+    %     When all the $\gls{c}[i]$ are constant we get exactly the \gls{kms} matrix. Can then take the Cholesky factorisation of this, and use the vectors in this to create a moment problem \cite{Vorobyev1965}. Adding the additional assumptions for orthogonality gives a well-defined linear map. 
+    %
+    %     Finally, in the restarted and windowed cases the orthogonality ensures that inner products remain the same no matter how much the map is applied. Thus in the asymptotic case the no-improvement idea holds.
+    %     }
 
 \end{frame}
 
 \begin{frame}{Where to go from here?}
+
     \begin{itemize}
-        \item We obtain a different expression for the $k$-stage gain than \cite{Evans2020}, we can look at when this can be bounded for some specific examples of linear maps.
-        \item Can we provide a complete characterisation of when \gls{aa} produces no improvement over \gls{pi}.
+        \item We obtain a different expression for the $k$-stage gain than
+            \cite{Evans2020}, we can look at when this can be bounded for some specific
+            examples of linear maps.
+        \item Can we provide a complete characterisation of when \gls{aa} produces no
+            improvement over \gls{pi}.
         \item Comparisons to the polynomial based bounds.
-        \item \cite{Feng2024a} did some work on the alternating \gls{aa}/\gls{pi} variant (basically \gls{aa} applied to powers of map). It will be interesting to see if there is a way to give an expression for the optimal power.
+        \item \cite{Feng2024a} did some work on the alternating \gls{aa}/\gls{pi}
+            variant (basically \gls{aa} applied to powers of map). It will be
+            interesting to see if there is a way to give an expression for the optimal
+            power.
     \end{itemize}
 
-\appxnote{Example of improvement by alternating}{
-Just in the 2D case, we compare two procedures, either:
-\begin{itemize}
-    \item the process of doing windowed \gls{aa} with history parameter 1 (i.e. we keep taking Anderson steps based on only the last residual); or,
-    \item taking two \gls{pi} steps and then doing \gls{aa} with only this point and the first point.
-\end{itemize}
-
-Doing this for the maps $\cos(\theta) R(\theta)$, ($R(\theta)$ is a rotation by $\theta$ - the case where \gls{aa} is just \gls{pi}), with $\theta \in \left(0,\frac{\pi}{2}\right)$, gives the following improvement when doing the two \gls{pi} steps and then \gls{aa},
-
-\begin{figure}
-    \centering
-    \input{tikz/alternating-improvement}
-    \caption{Ratio of the alternating iterate to the standard \gls{aa} iterate after the same number of function evaluations.}
-    \label{fig:alternatingimprovement}
-\end{figure}
-
-}
+    % \appxnote{Example of improvement by alternating}{
+    %     Just in the 2D case, we compare two procedures, either:
+    %     \begin{itemize}
+    %         \item the process of doing windowed \gls{aa} with history parameter 1 (i.e. we keep taking Anderson steps based on only the last residual); or,
+    %         \item taking two \gls{pi} steps and then doing \gls{aa} with only this point and the first point.
+    %     \end{itemize}
+    %
+    %     Doing this for the maps $\cos(\theta) R(\theta)$, ($R(\theta)$ is a rotation by $\theta$ - the case where \gls{aa} is just \gls{pi}), with $\theta \in \left(0,\frac{\pi}{2}\right)$, gives the following improvement when doing the two \gls{pi} steps and then \gls{aa},
+    %
+    %     \begin{figure}
+    %         \centering
+    %         \input{tikz/alternating-improvement}
+    %         \caption{Ratio of the alternating iterate to the standard \gls{aa} iterate after the same number of function evaluations.}
+    %         \label{fig:alternatingimprovement}
+    %     \end{figure}
+    %
+    %     }
 
 \end{frame}
 

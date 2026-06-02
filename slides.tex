@@ -11,6 +11,9 @@
 \def\input@path{{templates/oxford-maths-slides/}}
 \makeatother
 
+\usepackage{mathtools}
+\mathtoolsset{showonlyrefs}
+
 % Oxford Maths theming
 \usetheme{oxfordmaths}
 
@@ -47,6 +50,10 @@
   backend=biber,
   style=authoryear,
   maxcitenames=1,
+  url=false,
+  doi=false,
+  isbn=false,
+  eprint=false
 ]{biblatex}
 
 \addbibresource{references.bib}
@@ -83,11 +90,13 @@
 % Set author etc info
 \title[AA Convergence] %short version of title for slide footer
 {Rates of Convergence of Anderson Acceleration for 
- Fixed Point Problems} %full title for titlepage
+ Fixed Point Problems \emph{(in preparation)}} %full title for titlepage
 \author{\emph{Tobias Bretschneider} and Coralia Cartis}
 \institute{Mathematical Institute\\University of Oxford\\United Kingdom}
 \date[Wed 4 June 2026]  %short date for slide footer
-{SIAM Conference on Optimization (OP26), June 2026} %main date for title page,
+{SIAM Conference on Optimization (OP26), June 2026 \\
+Wednesday, June 3 \\ MS121 \\
+Inexact and Accelerated Methods for Nonlinear Problems} %main date for title page,
                         %can overload it to show say 'Conference X, Date Y'
 
 
@@ -116,24 +125,22 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{\only<3>{{\color{red} Infinite History }}%
-            \only<4>{{\color{red} Restarted }}%
-            \only<5>{{\color{red} Windowed }}%
-            \only<6>{{\color{red} Alternating \gls{pi} }}%
+\begin{frame}{\only<2>{{\color{red} Infinite History }}%
+            \only<3>{{\color{red} Restarted }}%
+            \only<4>{{\color{red} Windowed }}%
+            \only<5>{{\color{red} Alternating \gls{pi} }}%
             \glsfirst{aa}}
-    \begin{itemize}
-        \only<1>{\item We have the residual at each step, $\gls{r}[i] := \gls{F}(\gls{x}_i) -
-            \gls{x}_i$; a measure of deviation from the fixed-point.}
-        \only<1>{\item Under ``linearisation'' combining past iterates such that their
-            ``combined'' residuals are small should be good.}
-        \only<2-5>{\item \only<2>{\gls{aa} each time takes a linear combination of multiple previous
-            iterates. It p}\only<3->{P}roduces a sequence, $(\gls{x}[i])_{i \in \gls{Naturals}}$
-            with
+    
+        % \only<1>{\item Under ``linearisation'' combining past iterates such that their
+        %     ``combined'' residuals are small should be good.}
+        \only<1-4>{\only<1>{\gls{aa} each time takes a linear combination of multiple previous
+            iterates. It p}\only<2->{P}roduces a sequence, $(\gls{x}[i])_{i \in \gls{Naturals}}$
+            with,
             \begin{equation}\label{eqn:simpaaform}
-                \gls{x}[i+1] = \only<2,6>{\sum_{j}}
-                            \only<3>{\sum_{{\color{red} j=0}}^{{\color{red} i}}}
-                            \only<4>{\sum_{{\color{red} j=i-(i \bmod m)}}^{{\color{red} i}}}
-                            \only<5>{\sum_{{\color{red} j=i-m+1}}^{{\color{red} i}}}
+                \gls{x}[i+1] = \only<1>{\sum_{j}}
+                            \only<2>{\sum_{{\color{red} j=0}}^{{\color{red} i}}}
+                            \only<3>{\sum_{{\color{red} j=i-(i \bmod m)}}^{{\color{red} i}}}
+                            \only<4>{\sum_{{\color{red} j=i-m_k+1}}^{{\color{red} i}}}
                 \gls{alpha}_j \gls{F}(\gls{x}[j]),
             \end{equation}
             for coefficients $\gls{alpha}_j$, (computed at each step) solving,
@@ -141,18 +148,20 @@
                 \gls{vecalpha} =  \operatorname*{arg\,min}_{\gls{vecalpha} \text{ st.}
                 \sum_j
                 \gls{alpha}_j = 1} \left\|%
-                    \only<2,6>{\sum_j}
-                    \only<3>{\sum_{{\color{red} j=0}}^{{\color{red} i}}}
-                    \only<4>{\sum_{{\color{red} j=i - (i \bmod m)}}^{{\color{red} i}}}
-                    \only<5>{\sum_{{\color{red} j=i-m+1}}^{{\color{red} i}}}
+                    \only<1>{\sum_j}
+                    \only<2>{\sum_{{\color{red} j=0}}^{{\color{red} i}}}
+                    \only<3>{\sum_{{\color{red} j=i - (i \bmod m)}}^{{\color{red} i}}}
+                    \only<4>{\sum_{{\color{red} j=i-m_k+1}}^{{\color{red} i}}}
                 \gls{alpha}_j \gls{r}[j]\right\|.
-            \end{equation}}
-        \only<3>{\item {\color{red} Uses all the past residuals.}}
-        \only<4>{\item {\color{red} Clears the history every $m$ steps.}}
-        \only<5>{\item {\color{red} Keeps a maximum history of size $m$.}}
-        \only<6>{\item {\color{red} Takes $k$ \gls{pi} steps inbetween each \gls{aa}
-            update (can also be combined with other variants).}}
-    \end{itemize}
+            \end{equation}
+            \only<4>{\color{red}($m_k = \min \{m,k\}$)}}
+        \only<1>{Where we introduce the residual at each step, $\gls{r}[i] := \gls{F}(\gls{x}_i) -
+            \gls{x}_i$; a measure of deviation from the fixed-point.}
+        \only<2>{{\color{red} Uses all the past residuals.}}
+        \only<3>{{\color{red} Clears the history every $m$ steps.}}
+        \only<4>{{\color{red} Keeps a maximum history of size $m$, always deleting oldest if it gets too big.}}
+        %\only<5>{\item {\color{red} Takes $k$ \gls{pi} steps inbetween each \gls{aa}
+        %    update (can also be combined with other variants).}}
 \end{frame}
 
 \begin{frame}{Convergence of \gls{aa}}
@@ -163,12 +172,11 @@
             \only<2>{\color{red} no results showning in which cases it is strictly
             better.} \pause 
         %\item \cite{d_Aspremont2021} results similar to Krylov analysis of GMRES.
-        \item Then in \parencite{Garner2023} for windowed \gls{aa} on symmetric maps strict
-            improvement bounds are shown. \pause
-        \item Later \parencite{De_Sterck2022} also for restarted \gls{aa} on further normal
-            linear systems explicit convergence rates are found. \pause
+        \item  \parencite{Garner2023} shows strict improvement bounds  for windowed \gls{aa};  \pause
+        \item  \parencite{De_Sterck2022}:  explicit convergence rates  for restarted \gls{aa} on further normal
+            linear systems. \pause
         \item {\color{red} We still don't have a full appreciation of when, and to what
-            extent \gls{aa} (any variant) improves upon \gls{pi} (even just on
+            extent \gls{aa} (any variant) improves upon \gls{pi} (even when applied to
             \textbf{linear maps}).}
     \end{itemize}
 \end{frame}
@@ -262,9 +270,7 @@
         \gls{r}[0] & \gls{r}[1] & \cdots & \gls{r}[k-1]
     \end{bmatrix},
     \end{equation}
-    the matrix of past $k$ residuals.
-
-    {\footnotesize Details in \parencite{Ni2009}}
+    the matrix of past $k$ residuals.\hfill  {\footnotesize Details in \parencite{Ni2009}}
 
     % \appxnote{Minimum norm proof}{
     %     \begin{proof}
@@ -300,13 +306,13 @@ Four sets of vectors:
     \item minimisation problem solutions + current residual, $\gls{Mtilde}[n] =
         \{\gls{rho}[1],\gls{rho}[2],\dots, \gls{rho}[n-1], \gls{r}[n-1]\}.$
 \end{itemize}
-All their affine hulls are equivalent,
+\parencite{Bretschneider2025} All their affine hulls are equivalent,
 \begin{equation}
     \gls{aff}(\gls{K}[n]) = \gls{aff}(\gls{R}[n]) = \gls{aff}(\gls{Mtilde}[n]) = \gls{aff}(\gls{M}[n]),
 \end{equation}
 assuming stagnation, $\gls{r}[i] = \gls{r}[i+1]$ does not happen\footnote{The
     possibility of stagnation during \gls{aa} has been covered in detail in
-    \parencite{Potra2011}.}
+    \parencite{Potra2011}.}.
 
 % \appxnote[allowframebreaks]{Hull equivalency proofs}{
 %     We use induction. For $n=1$,
@@ -415,7 +421,7 @@ assuming stagnation, $\gls{r}[i] = \gls{r}[i+1]$ does not happen\footnote{The
     polynomials. General case can be covered by an SDP optimisation program.}
 
     \only<2>{
-    \begin{theorem}\label{thm:symcase}For \gls{aa} applied to a symmetric matrix
+    \begin{theorem}\label{thm:symcase}\cite{Bretschneider2025} For \gls{aa} applied to a symmetric matrix
         $\gls{A}$ with eigenvalues contained in the interval $[\gls{emin},\gls{emax}]$
         and 1 not in this interval we have
         \begin{equation}
@@ -429,7 +435,7 @@ assuming stagnation, $\gls{r}[i] = \gls{r}[i+1]$ does not happen\footnote{The
 
     \only<3>{
     \begin{theorem}\label{thm:polyskewsym}
-        For \gls{aa} applied to a skew-symmetric $\gls{A}$ with $\|\gls{A}\|\leq
+        \parencite{Bretschneider2025} For \gls{aa} applied to a skew-symmetric $\gls{A}$ with $\|\gls{A}\|\leq
         \gls{emax}$ we have
         \begin{equation}
             \frac{\|\gls{r}[2m+1]\|}{\|\gls{r}[0]\|} \leq
@@ -705,15 +711,12 @@ assuming stagnation, $\gls{r}[i] = \gls{r}[i+1]$ does not happen\footnote{The
 
 \end{frame}
 
-\begin{frame}{Questions?}
-    
-\end{frame}
-
 \appendix
 
-\begin{frame}[allowframebreaks]
+\begin{frame}[shrink=35]
   \frametitle{References}
-  
+
+  \tiny
   \printbibliography
 
 \end{frame}
